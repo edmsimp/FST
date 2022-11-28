@@ -1,0 +1,2 @@
+include_directories(FST)
+include_directories(Hash)
