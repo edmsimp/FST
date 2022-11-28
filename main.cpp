@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -6,9 +7,10 @@
 #include <string>
 #include <vector>
 
+
 /********* Definitions *********/
 
-#define FIRST_CHAR 'a'
+#define FIRST_CHAR '\''
 #define LAST_CHAR 'z'
 #define MAX_WORD_SIZE 50
 
@@ -53,18 +55,18 @@ public:
         this->strings = s;
     }
 
-    std::string getOutput () {
-        return this->output;
+    std::string getOutput (char c) {
+        return this->outputs.at(c);;
     }
 
-    void setOutput (std::string s) {
-        this->output = s;
+    void setOutput (char c, std::string s) {
+        this->outputs.insert({c, s});
     }
 
 private:
     std::map<char, state> transitions;
+    std::map<char, std::string> outputs; // null if isFinal = true
     std::set<std::string> strings; // null if isFinal = false
-    std::string output; // null if isFinal = true
     bool isFinal;
 };
 
@@ -90,12 +92,12 @@ void setStateOutput (state s, std::set<std::string> so) {
     s->setStrings(so);
 }
 
-std::string output (state s) {
-    return s->getOutput();
+std::string output (state s, char c) {
+    return s->getOutput(c);
 }
 
-void setOutput (state s, std::string so) {
-    s->setOutput(so);
+void setOutput (state s, char c, std::string o) {
+    s->setOutput(c, o);
 }
 
 /********* Dictionary *********/
@@ -148,6 +150,39 @@ state member (dictionary d, state s) {
 
 void insert (dictionary d, state s) {
     d->addState(s);
+}
+
+/********* Utils *********/
+
+std::string longestCommonPrefix (std::string arr[], int n) {
+    if (n == 0)  return "";
+    if (n == 1)  return arr[0];
+
+    sort(arr, arr + n);
+    int min = std::min(arr[0].size(), arr[n - 1].size());
+    std::string first = arr[0], last = arr[n - 1];
+    int i = 0;
+
+    while (i < min && first[i] == last[i])  i++;
+
+    std::string prefix = first.substr(0, i);
+    return prefix;
+}
+
+std:: string leftDivision (std::string s1, std::string s2) {
+    std::string q = "";
+
+    if (s2.length() < s1.length()) return "NULL";
+    if (s2.length() == s1.length()) return "";
+
+    int i = 0;
+    while (s1[i] == s2[0])  i++;
+
+    for (int j = i; i < s2.length(); j++) {
+        q = q + s2[j];
+    }
+
+    return q;
 }
 
 /********* Program *********/
@@ -207,13 +242,46 @@ int main() {
 
             if (currentWord != previousWord) {
                 tempStates[currentWord.length()]->setIsFinal(true);
-                setOutput(tempStates[currentWord.length()], {""});
+                setStateOutput(tempStates[currentWord.length()], {""});
             }
 
             for (j = 1; j < prefixLengthPlus1 - 1; j++) {
-                // TODO: end pseudocode
+                std::string arr[] = {output(tempStates[j-1], currentWord[j]), currentOutput};
+                int n = sizeof(arr);
+                commonPrefix = longestCommonPrefix(arr, n);
+
+                wordSuffix = leftDivision(commonPrefix, output(tempStates[j-1], currentWord[j]));
+                setOutput(tempStates[j-1], currentWord[j], commonPrefix);
+
+                for (c = FIRST_CHAR; c < LAST_CHAR; c++)
+                    if (getTransition(tempStates[j], c) != nullptr)
+                        setOutput(tempStates[j], c, wordSuffix + output(tempStates[j], c));
+
+                if (tempStates[j]->getIsFinal()) {
+                    tempSet.clear();
+                    for (auto string : stateOutput(tempStates[j])) {
+                        std::set<std::string>::iterator it;
+                        tempSet.insert(it, wordSuffix + tempString);
+                        setStateOutput(tempStates[j], tempSet);
+                    }
+                }
+                currentOutput = leftDivision(commonPrefix, currentOutput);
             }
+            if (currentWord == previousWord) {
+                std::set<std::string> temp = stateOutput(tempStates[currentWord.length()]);
+                temp.insert(currentOutput);
+                setStateOutput(tempStates[currentWord.length()], temp);
+            }
+            else {
+                setOutput(tempStates[prefixLengthPlus1 - 1], currentWord[prefixLengthPlus1], currentOutput);
+            }
+            previousWord = currentWord;
         }
+        for (i = currentWord.length(); i > 0; i--) {
+            setTransition(tempStates[i-1], previousWord[i], findMinimized(tempStates[i]));
+        }
+        initialState = findMinimized(tempStates[0]);
+        // TODO: print transducer
 
     file.close();
     return 0;
