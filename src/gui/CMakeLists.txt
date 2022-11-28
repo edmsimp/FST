@@ -18,8 +18,8 @@ project(ftxui-starter
     VERSION 1.0.0
 )
  
-add_executable(ftxui-starter src/main.cpp)
-target_include_directories(ftxui-starter PRIVATE src)
+add_executable(ftxui-starter main.cpp)
+target_include_directories(ftxui-starter PRIVATE .)
  
 target_link_libraries(ftxui-starter
     PRIVATE ftxui::screen
