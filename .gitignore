@@ -33,6 +33,7 @@
 
 # Other folders
 build
+binaries
 .idea
 cmake-build-debug
 cmake-build-release

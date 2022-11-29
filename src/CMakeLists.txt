@@ -1,3 +1,3 @@
 add_subdirectory(FST)
-add_subdirectory(Hash)
+add_subdirectory(Levenshtein)
 add_subdirectory(Tests)

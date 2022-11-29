@@ -1,2 +1,2 @@
-include_directories(FST)
-include_directories(Hash)
+add_subdirectory(FST)
+add_subdirectory(Levenshtein)

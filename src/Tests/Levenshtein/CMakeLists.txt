@@ -9,5 +9,5 @@ foreach(file_path ${TEST_PROGRAMS})
     add_executable(${file_name_we} ${file_path})
 
     # Add dependant libraries
-    target_link_libraries(${file_name_we} HASH_LIB)
+    target_link_libraries(${file_name_we} LEVENSHTEIN_LIB)
 endforeach()
