@@ -63,6 +63,10 @@ public:
         this->outputs.insert({c, s});
     }
 
+    std::map<char, std::string> getOutputsSet () {
+        return this->outputs;
+    }
+
 private:
     std::map<char, state> transitions;
     std::map<char, std::string> outputs; // null if isFinal = true
@@ -73,7 +77,10 @@ private:
 /********* Auxiliary State Functions *********/
 
 state newState () {
-    return std::make_shared<stateStruct>();
+    state s = std::make_shared<stateStruct>();
+    for (char c = FIRST_CHAR; c <= LAST_CHAR; c++)
+        s->setTransition(c, nullptr);
+    return s;
 }
 
 state getTransition (state s, char c) {
@@ -118,9 +125,12 @@ public:
         this->states.emplace_back(s);
     }
 
+    std::vector<state> getStates () {
+        return this->states;
+    }
+
 private:
     std::vector<state> states;
-    state parameterState;
 };
 
 /********* Final Functions *********/
@@ -132,7 +142,8 @@ state copyState (state s) {
 }
 
 void clearState (state s) {
-    s->clearTransitions();
+    for (char c = FIRST_CHAR; c <= LAST_CHAR; c++)
+        s->setTransition(c, nullptr);
     s->setIsFinal(false);
 }
 
@@ -176,9 +187,9 @@ std:: string leftDivision (std::string s1, std::string s2) {
     if (s2.length() == s1.length()) return "";
 
     int i = 0;
-    while (s1[i] == s2[0])  i++;
+    while (s1[i] == s2[i])  i++;
 
-    for (int j = i; i < s2.length(); j++) {
+    for (int j = i; j < s2.length(); j++) {
         q = q + s2[j];
     }
 
@@ -190,15 +201,25 @@ std:: string leftDivision (std::string s1, std::string s2) {
 dictionary minimalTransducerStatesDictionary;
 
 state findMinimized (state s) {
-    state r;
+    state r = newState();
     r = member(minimalTransducerStatesDictionary, s);
 
     if (r == nullptr) {
         r = copyState(s);
-        insert(minimalTransducerStatesDictionary, s);
+        insert(minimalTransducerStatesDictionary, r);
     }
 
     return r;
+}
+
+void printFST (dictionary d) {
+    int count = 0;
+    for (auto s : d->getStates()) {
+
+                std::cout << count << ": " << std::endl;
+                count++;
+        std::cout << std::endl;
+    }
 }
 
 int main() {
@@ -228,12 +249,17 @@ int main() {
         while (!file.eof()) {
             std::getline(file, currentWord);
             // current output should be defined here, but I don't know what it should be
-            std::cout << currentWord << std::endl;
+            currentOutput = currentWord;
+            std::cout << currentWord << " " << currentOutput << std::endl;
 
             i = 1;
             while (i < currentWord.length() and i < previousWord.length() and currentWord[i] == previousWord[i])
                 i++;
             prefixLengthPlus1 = i;
+
+            for (i = previousWord.length(); i >= prefixLengthPlus1; i--) {
+                setTransition(tempStates[i-1], previousWord[i], findMinimized(tempStates[i]));
+            }
 
             for (i = prefixLengthPlus1; i < currentWord.length(); i++) {
                 clearState(tempStates[i]);
@@ -242,26 +268,24 @@ int main() {
 
             if (currentWord != previousWord) {
                 tempStates[currentWord.length()]->setIsFinal(true);
-                setStateOutput(tempStates[currentWord.length()], {""});
+                setStateOutput(tempStates[currentWord.length()], {});
             }
 
-            for (j = 1; j < prefixLengthPlus1 - 1; j++) {
+            for (j = 1; j < prefixLengthPlus1; j++) {
                 std::string arr[] = {output(tempStates[j-1], currentWord[j]), currentOutput};
-                int n = sizeof(arr);
-                commonPrefix = longestCommonPrefix(arr, n);
+                commonPrefix = longestCommonPrefix(arr, 2);
 
                 wordSuffix = leftDivision(commonPrefix, output(tempStates[j-1], currentWord[j]));
                 setOutput(tempStates[j-1], currentWord[j], commonPrefix);
 
-                for (c = FIRST_CHAR; c < LAST_CHAR; c++)
+                for (c = FIRST_CHAR; c <= LAST_CHAR; c++)
                     if (getTransition(tempStates[j], c) != nullptr)
                         setOutput(tempStates[j], c, wordSuffix + output(tempStates[j], c));
 
                 if (tempStates[j]->getIsFinal()) {
                     tempSet.clear();
                     for (auto string : stateOutput(tempStates[j])) {
-                        std::set<std::string>::iterator it;
-                        tempSet.insert(it, wordSuffix + tempString);
+                        tempSet.insert(wordSuffix + tempString);
                         setStateOutput(tempStates[j], tempSet);
                     }
                 }
@@ -284,5 +308,6 @@ int main() {
         // TODO: print transducer
 
     file.close();
+    printFST(minimalTransducerStatesDictionary);
     return 0;
 }
