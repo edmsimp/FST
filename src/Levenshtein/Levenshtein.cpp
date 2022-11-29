@@ -15,7 +15,7 @@ LevenshteinAutomata::~LevenshteinAutomata(){
 int LevenshteinAutomata::levenshteinDistance(std::string s1, std::string s2){
     // Implementation from:
     // https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#C++
-        
+
     const std::size_t len1 = s1.size(), len2 = s2.size();
 	std::vector<std::vector<unsigned int>> d(len1 + 1, std::vector<unsigned int>(len2 + 1));
 
@@ -33,6 +33,16 @@ void LevenshteinAutomata::updateDictionary(std::list<std::string> newDict){
 
 }
 
+std::list<std::string> LevenshteinAutomata::getWords(std::string word){
+    std::list<std::string> wordList;
+
+    for(std::list<std::string>::iterator it = dictionary.begin(); it != dictionary.end(); it++)
+        if(levenshteinDistance((*it), word) == 1)
+            wordList.push_back(*it);
+
+    return wordList;
+}
+
 void LevenshteinAutomata::resetDictionary(){
     std::cout << "Clearing dictionary." << std::endl;
     dictionary.clear();
@@ -46,12 +56,8 @@ void LevenshteinAutomata::resetDictionary(){
     std::cout << "Found Linux dictionary file." << std::endl;
     std::string currentLine;
 
-    while(std::getline(fs, currentLine)){
-        if(currentLine.size() > longestWordLength)
-            longestWordLength = currentLine.size();
-
+    while(std::getline(fs, currentLine))
         dictionary.push_back(currentLine);
-    }
 
     std::cout << "Created dictionary with " << dictionary.size() << " words." << std::endl;
     fs.close();

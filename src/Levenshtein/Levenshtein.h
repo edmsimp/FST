@@ -55,10 +55,6 @@ private:
     // std::vector<std::list<std::string>> dictionary;
     std::list<std::string> dictionary;
 
-    // Matrix for the dynamic programming Levenshtein distance algorithm.
-    int longestWordLength;
-    std::vector<int> wordMatrix;
-
     // List to store all the correct words
     std::list<std::string> firstWords;
 };
