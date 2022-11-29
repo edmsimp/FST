@@ -54,9 +54,6 @@ private:
     // The dictionary that stores the words.
     // std::vector<std::list<std::string>> dictionary;
     std::list<std::string> dictionary;
-
-    // List to store all the correct words
-    std::list<std::string> firstWords;
 };
 
 #endif

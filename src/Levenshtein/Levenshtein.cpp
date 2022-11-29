@@ -1,10 +1,6 @@
 #include "Levenshtein.h"
 
 LevenshteinAutomata::LevenshteinAutomata(){
-    firstWords = {};
-    // Resize dictionary to fit all letters of the alphabet.
-    dictionary.resize(26);
-
     resetDictionary();
 }
 
@@ -30,7 +26,13 @@ int LevenshteinAutomata::levenshteinDistance(std::string s1, std::string s2){
 }
 
 void LevenshteinAutomata::updateDictionary(std::list<std::string> newDict){
+    std::cout << "Clearing dictionary." << std::endl;
+    dictionary.clear();
 
+    for(std::list<std::string>::iterator it = newDict.begin(); it != newDict.end(); it++)
+        dictionary.push_back(*it);
+
+    std::cout << "Created dictionary with " << dictionary.size() << " words." << std::endl;
 }
 
 std::list<std::string> LevenshteinAutomata::getWords(std::string word){
@@ -62,28 +64,3 @@ void LevenshteinAutomata::resetDictionary(){
     std::cout << "Created dictionary with " << dictionary.size() << " words." << std::endl;
     fs.close();
 }
-
-// void LevenshteinAutomata::resetDictionary(){
-//     std::cout << "Clearing dictionary." << std::endl;
-//     dictionary.clear();
-//     dictionary.resize(26);
-
-//     std::ifstream fs;
-//     fs.open("/usr/share/dict/american-english");
-
-//     if(!fs.is_open())
-//         throw std::runtime_error("Could not open default linux dictionary file!");
-
-//     std::cout << "Found Linux dictionary file." << std::endl;
-//     std::string currentLine;
-
-//     while(std::getline(fs, currentLine)){
-//         std::cout << "Pushing " << currentLine << " into position " << int(currentLine[0]) - 97 << " of the vector." << std::endl;
-//         dictionary[int(std::tolower(currentLine[0])) - 97].push_back(currentLine);
-//     }
-
-//     for(std::vector<std::list<std::string>>::iterator it = dictionary.begin(); it != dictionary.end(); it++)
-//         std::cout << "Current letter has " << (*it).size() << "elements." << std::endl;
-
-//     fs.close();
-// }
