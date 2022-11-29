@@ -1,6 +1,7 @@
 #ifndef LEVENSHTEIN_H
 #define LEVENSHTEIN_H
 
+#include <algorithm>
 #include <list>
 #include <vector>
 #include <string>
