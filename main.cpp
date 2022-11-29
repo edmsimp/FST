@@ -63,8 +63,12 @@ public:
         this->outputs.insert({c, s});
     }
 
-    std::map<char, std::string> getOutputsSet () {
+    std::map<char, std::string> getOutputsMap () {
         return this->outputs;
+    }
+
+    std::map<char, state> getTransitionsMap () {
+        return this->transitions;
     }
 
 private:
@@ -80,6 +84,9 @@ state newState () {
     state s = std::make_shared<stateStruct>();
     for (char c = FIRST_CHAR; c <= LAST_CHAR; c++)
         s->setTransition(c, nullptr);
+    for (char c = FIRST_CHAR; c <= LAST_CHAR; c++)
+        s->setOutput(c, "");
+    s->getStrings().clear();
     return s;
 }
 
@@ -144,6 +151,9 @@ state copyState (state s) {
 void clearState (state s) {
     for (char c = FIRST_CHAR; c <= LAST_CHAR; c++)
         s->setTransition(c, nullptr);
+    for (char c = FIRST_CHAR; c <= LAST_CHAR; c++)
+        s->setOutput(c, "");
+    s->getStrings().clear();
     s->setIsFinal(false);
 }
 
@@ -212,14 +222,22 @@ state findMinimized (state s) {
     return r;
 }
 
-void printFST (dictionary d) {
-    int count = 0;
-    for (auto s : d->getStates()) {
-
-                std::cout << count << ": " << std::endl;
-                count++;
-        std::cout << std::endl;
+int ans = -1;
+void printFST (state s) {
+    ans++;
+    std::cout << ans << std::endl;
+    if (!s->getOutputsMap().empty()) {
+        std::map<char, std::string>::iterator it;
+        for (it = s->getOutputsMap().begin(); it != s->getOutputsMap().end(); it++) {
+            if (it->second != "") std::cout << "    " << it->first << ": " << it->second << std::endl;
+        }
     }
+    if (!s->getTransitionsMap().empty()) {
+        std::map<char, state>::iterator it;
+        for (it = s->getTransitionsMap().begin(); it != s->getTransitionsMap().end(); it++) {
+            if (it->second != nullptr) std::cout << "    " << it->first << ": " << it->second << std::endl;
+        }
+    } else std::cout << "a";
 }
 
 int main() {
@@ -250,7 +268,6 @@ int main() {
             std::getline(file, currentWord);
             // current output should be defined here, but I don't know what it should be
             currentOutput = currentWord;
-            std::cout << currentWord << " " << currentOutput << std::endl;
 
             i = 1;
             while (i < currentWord.length() and i < previousWord.length() and currentWord[i] == previousWord[i])
@@ -305,9 +322,9 @@ int main() {
             setTransition(tempStates[i-1], previousWord[i], findMinimized(tempStates[i]));
         }
         initialState = findMinimized(tempStates[0]);
-        // TODO: print transducer
 
     file.close();
-    printFST(minimalTransducerStatesDictionary);
+    printFST(initialState);
+
     return 0;
 }
