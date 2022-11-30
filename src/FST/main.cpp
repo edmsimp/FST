@@ -1,12 +1,10 @@
 #include <fstream>
-
-#include "utils.h"
 #include "fst.h"
 
 using namespace std;
 
 int main () {
-    vector<string> input = {"grabs", "grace", "graced", "graceful", "gracefully", "gray"};
+    vector<string> input = {"abacate"};
     // int id1 = 2;
     // int id2 = 5;
 
@@ -20,7 +18,7 @@ int main () {
 
     shared_ptr<fst> FST = make_shared<fst>(input);
 
-    printfst(FST);
+    //printfst(FST);
 
     return 0;
 }

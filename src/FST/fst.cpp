@@ -3,6 +3,7 @@
 //
 
 #include "fst.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -11,7 +12,7 @@ fst::fst (vector<string> &input) {
     std::vector<shared_ptr<state>> tempStates;
     tempStates.resize(MAX_WORD_SIZE, nullptr);
     shared_ptr<state> initialState;
-    string previousWord, currentWord, currentOutput, wordSuffix, commonPrefix, tempString;
+    string previousWord, currentWord, wordSuffix, commonPrefix, tempString;
     int i, j, prefixLenPlus1;
     char c;
 
@@ -19,13 +20,14 @@ fst::fst (vector<string> &input) {
 
     for (i = 0; i < MAX_WORD_SIZE; i++)
         tempStates[i] = make_shared<state>(id_counter);
+
+    id_counter = 0;
         
     // tempStates[0]->clear();
     previousWord = "";
 
     for (int k = 0; k < input.size(); k++) {
         currentWord = input[k];
-        currentOutput = input[k];
 
         //cout << currentWord << endl;
 
@@ -36,13 +38,13 @@ fst::fst (vector<string> &input) {
 
         // TODO: o que isso faz?
 
-        for (i = previousWord.length(); i > prefixLenPlus1; i--) {
+        for (i = previousWord.length() - 1; i > prefixLenPlus1; i--) {
             tempStates[i-1]->transitions.insert({previousWord[i], this->findMinimized(tempStates[i], id_counter)});
         }
 
         for (i = prefixLenPlus1; i < currentWord.length(); i++) {
             tempStates[i]->clear();
-            tempStates[i-1]->transitions.insert({currentWord[i], this->findMinimized(tempStates[i], id_counter)});
+            tempStates[i]->transitions.insert({currentWord[i], this->findMinimized(tempStates[i+1], id_counter)});
         }
 
         if (currentWord.compare(previousWord) != 0) {
@@ -55,11 +57,18 @@ fst::fst (vector<string> &input) {
         previousWord = currentWord;        
     }
 
-    for (i = currentWord.length(); i > 1; i--) {
-        tempStates[i-1]->transitions.insert({previousWord[i], this->findMinimized(tempStates[i], id_counter)});
+    for (i = currentWord.length() - 1; i > 1; i--) {
+        shared_ptr<state> cu = this->findMinimized(tempStates[i], id_counter);
+        tempStates[i-1]->transitions.insert({previousWord[i], cu});
     }
 
-    initialState = this->findMinimized(tempStates[0], id_counter);
+    for (auto s : tempStates) {
+        if (s) {
+            printState(s);
+        }
+    }
+
+     // initialState = this->findMinimized(tempStates[0], id_counter);
 }
 
 shared_ptr<state> fst::member (const shared_ptr<state>& s) {
@@ -76,6 +85,8 @@ shared_ptr<state> fst::findMinimized (shared_ptr<state>& s, int &id_counter) {
     shared_ptr<state> r = make_shared<state>(id_counter);
     r = this->member(s);
     if (r == nullptr) {
+        r = make_shared<state>(id_counter);
+        id_counter--;
         r->copyState(s);
         this->insert(r);
     }

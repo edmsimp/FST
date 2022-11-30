@@ -22,5 +22,6 @@ void state::copyState (const shared_ptr<state>& s) {
 }
 
 bool state::compareState (const shared_ptr<state>& s) const {
+    if ((!this->isFinal and !s->isFinal) and (this->transitions.empty() and s->transitions.empty())) return false;
     return this->isFinal == s->isFinal and this->transitions == s->transitions;
 }

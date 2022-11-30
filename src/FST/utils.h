@@ -16,7 +16,7 @@ void printState (const shared_ptr<state>& s) {
     if (s->transitions.empty()) cout << "--- no transitions\n";
     else
         for (it_t = s->transitions.begin(); it_t != s->transitions.end(); it_t++) {
-            cout << "--- char: " << it_t->first << ", goes to state " << it_t->second->id << ", with output ";
+            cout << "--- char: " << it_t->first << ", goes to state " << it_t->second->id << endl;
         }
 }
 
