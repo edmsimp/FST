@@ -4,8 +4,7 @@
 #include <fstream>
 #include <list>
 
-#include "Levenshtein.h"
-#include "BalancedTreeCompleter.h"
+#include "GenericCompleter.h"
 
 std::chrono::_V2::high_resolution_clock::time_point startTime, endTime;
 
@@ -14,7 +13,7 @@ void updateTime(std::chrono::_V2::high_resolution_clock::time_point &timestamp){
 }
 
 void writeTime(std::ofstream &outputFile, std::string word){
-    outputFile << word << ", " << (std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime)).count() << std::endl;
+    outputFile << word << ", " << (std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime)).count() << std::endl;
 }
 
 int main(){
@@ -29,9 +28,24 @@ int main(){
         return 1;
     }
     
-    levenshteinOut << "string, executionTime (ms)" << std::endl;
-    fstOut << "string, executionTime (ms)" << std::endl;
-    treeOut << "string, executionTime (ms)" << std::endl;
+    levenshteinOut << "string, executionTime (ns)" << std::endl;
+    fstOut << "string, executionTime (ns)" << std::endl;
+    treeOut << "string, executionTime (ns)" << std::endl;
+
+    // Loading American Dictionary. ##################################################################
+    std::ifstream fs;
+    fs.open("/usr/share/dict/american-english");
+
+    if(!fs.is_open())
+        throw std::runtime_error("Could not open default linux dictionary file!");
+
+    std::vector<std::string> dictionary;
+    std::string currentLine;
+
+    while(std::getline(fs, currentLine))
+        dictionary.push_back(currentLine);
+
+    fs.close();
 
 
     // Preparing some test strings. ##################################################################
@@ -47,39 +61,58 @@ int main(){
     // Startup tests.               ##################################################################
     // Create Levenshtein Completer.
     updateTime(startTime);
-    LevenshteinAutomata levenCompleter;
+    LevenshteinCompleter levenCompleter(dictionary, &answers, 10, 10);
     updateTime(endTime);
     writeTime(levenshteinOut, "createDict");
 
     // Create Balanced Tree Completer.
+    updateTime(startTime);
+    BalancedTreeCompleter treeCompleter(dictionary, &answers, 10, 10);
+    updateTime(endTime);
+    writeTime(treeOut, "createDict");
 
-    // Levenshtein string tests.    ##################################################################
+    // Generic Completer.
+    GenericCompleter genCompleter(dictionary, answers, 10, 10);
+
+    // String tests.                ##################################################################
     // Alphabet
+    std::cout << "Testing letters..." << std::endl;
     for(std::list<std::string>::iterator it = alphabet.begin(); it != alphabet.end(); it++){
-        std::cout << "Testing " << *it << "... ";
+        // Levenshtein
+        genCompleter.selectCompleter(2);
         updateTime(startTime);
-        levenCompleter.getWords(*it, &answers, 10);
+        genCompleter.autoComplete(*it);
         updateTime(endTime);
         
         writeTime(levenshteinOut, *it);
-        std::cout << "Levenshtein... ";
 
-
-        std::cout << std::endl;
+        // Tree
+        genCompleter.selectCompleter(1);
+        updateTime(startTime);
+        genCompleter.autoComplete(*it);
+        updateTime(endTime);
+        
+        writeTime(treeOut, *it);
     }
 
     // Strings
+    std::cout << "Testing strings..." << std::endl;
     for(std::list<std::string>::iterator it = testWord.begin(); it != testWord.end(); it++){
-        std::cout << "Testing " << *it << "... ";
+        // Levenshtein
+        genCompleter.selectCompleter(2);
         updateTime(startTime);
-        levenCompleter.getWords(*it, &answers, 10);
+        genCompleter.autoComplete(*it);
         updateTime(endTime);
         
         writeTime(levenshteinOut, *it);
-        std::cout << "Levenshtein... ";
 
-
-        std::cout << std::endl;
+        // Tree
+        genCompleter.selectCompleter(1);
+        updateTime(startTime);
+        genCompleter.autoComplete(*it);
+        updateTime(endTime);
+        
+        writeTime(treeOut, *it);
     }
 
 }
