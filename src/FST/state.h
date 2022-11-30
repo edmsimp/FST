@@ -22,8 +22,6 @@ public:
     bool compareState (const shared_ptr<state>& s) const;
 
     map<char, shared_ptr<state>> transitions;
-    map<char, string> outputs;
-    set<string> stateOutput;
     bool isFinal;
     long int id;
 };

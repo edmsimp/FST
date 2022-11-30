@@ -1,1 +1,1 @@
-add_executable(FST main.cpp state.cpp state.h dictionary.cpp dictionary.h utils.h)
+add_executable(FST main.cpp state.cpp state.h fst.cpp fst.h utils.h)

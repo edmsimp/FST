@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include "dictionary.h"
+#include "fst.h"
 
 void printState (const shared_ptr<state>& s) {
     map<char, shared_ptr<state>>::iterator it_t;
@@ -20,8 +20,8 @@ void printState (const shared_ptr<state>& s) {
         }
 }
 
-void printDictionary (const shared_ptr<dictionary>& d) {
-    if (d->states.empty()) cout << "empty dictionary";
+void printfst (const shared_ptr<fst>& d) {
+    if (d->states.empty()) cout << "empty fst";
     else {
         for (const auto& s: d->states) {
             printState(s);
