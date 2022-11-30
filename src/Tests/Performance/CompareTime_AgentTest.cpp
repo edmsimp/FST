@@ -35,6 +35,8 @@ int main(){
 
 
     // Preparing some test strings. ##################################################################
+    std::vector<std::string> answers = {};
+    
     std::list<std::string> alphabet = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", 
                                        "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
 
@@ -56,7 +58,7 @@ int main(){
     for(std::list<std::string>::iterator it = alphabet.begin(); it != alphabet.end(); it++){
         std::cout << "Testing " << *it << "... ";
         updateTime(startTime);
-        levenCompleter.getWords(*it);
+        levenCompleter.getWords(*it, &answers, 10);
         updateTime(endTime);
         
         writeTime(levenshteinOut, *it);
@@ -70,7 +72,7 @@ int main(){
     for(std::list<std::string>::iterator it = testWord.begin(); it != testWord.end(); it++){
         std::cout << "Testing " << *it << "... ";
         updateTime(startTime);
-        levenCompleter.getWords(*it);
+        levenCompleter.getWords(*it, &answers, 10);
         updateTime(endTime);
         
         writeTime(levenshteinOut, *it);

@@ -4,6 +4,10 @@ LevenshteinAutomata::LevenshteinAutomata(){
     resetDictionary();
 }
 
+LevenshteinAutomata::LevenshteinAutomata(std::vector<std::string> &dictionary){
+    updateDictionary(dictionary);
+}
+
 LevenshteinAutomata::~LevenshteinAutomata(){
     return;
 }
@@ -25,24 +29,24 @@ int LevenshteinAutomata::levenshteinDistance(std::string s1, std::string s2){
 	return d[len1][len2];
 }
 
-void LevenshteinAutomata::updateDictionary(std::list<std::string> newDict){
+void LevenshteinAutomata::updateDictionary(std::vector<std::string> &newDict){
     //std::cout << "Clearing dictionary." << std::endl;
     dictionary.clear();
 
-    for(std::list<std::string>::iterator it = newDict.begin(); it != newDict.end(); it++)
+    for(std::vector<std::string>::iterator it = newDict.begin(); it != newDict.end(); it++)
         dictionary.push_back(*it);
 
     //std::cout << "Created dictionary with " << dictionary.size() << " words." << std::endl;
 }
 
-std::list<std::string> LevenshteinAutomata::getWords(std::string word){
-    std::list<std::string> wordList;
-
-    for(std::list<std::string>::iterator it = dictionary.begin(); it != dictionary.end(); it++)
+void LevenshteinAutomata::getWords(std::string word, std::vector<std::string> *matchedStrings, int maxMatches){
+    for(std::list<std::string>::iterator it = dictionary.begin(); it != dictionary.end(); it++){
         if(levenshteinDistance((*it), word) == 1)
-            wordList.push_back(*it);
+            matchedStrings->push_back(*it);
+    }
 
-    return wordList;
+    for(int i = matchedStrings->size(); i < maxMatches; i++)
+        matchedStrings->push_back("");
 }
 
 void LevenshteinAutomata::resetDictionary(){

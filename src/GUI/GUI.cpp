@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
-#include "Completers.h"
- 
+#include "GenericCompleter.h"
+
 #include "ftxui/component/captured_mouse.hpp"  // for ftxui
 #include "ftxui/component/component.hpp"       // for Input, Renderer, Vertical
 #include "ftxui/component/screen_interactive.hpp"  // for Component, ScreenInteractive
@@ -22,7 +22,7 @@ int main(int argc, const char* argv[]) {
     std::vector<std::vector<std::string>> menuEntries = {{"FST", "Red Black Tree", "Levans"}, {"1", "2", "3", "4", "5", "6"}};
 
     // Instantiate completers
-    Completers completers(dictionary, matchStrings, 1, maxQuantityToMatch);
+    GenericCompleter completer(dictionary, matchStrings, 1, maxQuantityToMatch);
 
     // GUI components
 
@@ -38,11 +38,11 @@ int main(int argc, const char* argv[]) {
  
     auto renderer = ftxui::Renderer(component, [&] {
         // Select the right completer and set the number os strings to search for
-        auto completer = completers.selectCompleter(menuSelected[0]);
-        completer->setMatchesNumber(menuSelected[1] + 1);
+        completer.selectCompleter(menuSelected[0]);
+        completer.setMatchesNumber(menuSelected[1] + 1);
 
         // Generate autocomplete strings
-        completer->autoComplete(currentString);
+        completer.autoComplete(currentString);
 
         return window(ftxui::text("Content"), ftxui::vbox(
             {

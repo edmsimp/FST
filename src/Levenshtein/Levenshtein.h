@@ -13,6 +13,7 @@ class LevenshteinAutomata {
 public:
     // Class constructor and destructor
     LevenshteinAutomata();
+    LevenshteinAutomata(std::vector<std::string> &dictionary);
     ~LevenshteinAutomata();
 
     /**
@@ -30,16 +31,18 @@ public:
      * @param newDict List containing the new dictionary
      * with the words.
      */
-   void updateDictionary(std::list<std::string> newDict);
+   void updateDictionary(std::vector<std::string> &newDict);
 
     /**
      * @brief Function that returns the list of words with
      * Levenshtein distance 1 from the current word.
      * @param word Word whose distances will be calculated 
      * by the Levenshtein Automata.
-     * @return The list containing the words with distance 1.
+     * @param matchedStrings Pointer to vector onto which the 
+     * strings with Levenshtein distance 1 will be placed.
+     * @param maxMatches Maximum number of words to be matched.
      */
-    std::list<std::string> getWords(std::string word);
+    void getWords(std::string word, std::vector<std::string> *matchedStrings, int maxMatches);
 
     /**
      * @brief Function that calculates the Levenshtein distance
