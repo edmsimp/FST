@@ -1,7 +1,7 @@
 #include "BalancedTreeCompleter.h"
 
-BalancedTreeCompleter::BalancedTreeCompleter(std::vector<std::string> &dictionary, std::vector<std::string> &matchedStrings, int quantityToMatch, int maxQuantityToMatch) {
-    this->matchedStrings = &matchedStrings;
+BalancedTreeCompleter::BalancedTreeCompleter(std::vector<std::string> &dictionary, std::vector<std::string> *matchedStrings, int quantityToMatch, int maxQuantityToMatch) {
+    this->matchedStrings = matchedStrings;
     this->matchesNumber = quantityToMatch;
     this->maxMatches = maxQuantityToMatch;
     this->tree.loadTree(dictionary);

@@ -14,7 +14,7 @@ private:
     std::vector<std::string> *matchedStrings;
 
 public:
-    BalancedTreeCompleter(std::vector<std::string> &dictionary, std::vector<std::string> &matchedStrings, int quantityToMatch, int maxQuantityToMatch);
+    BalancedTreeCompleter(std::vector<std::string> &dictionary, std::vector<std::string> *matchedStrings, int quantityToMatch, int maxQuantityToMatch);
 
     void setMatchesNumber(int matchesNumber);
 
