@@ -18,16 +18,24 @@ using namespace std;
 
 class fst {
 public:
-    int id_counter;
-    shared_ptr<state> member (const shared_ptr<state>& s);
-    vector<shared_ptr<state>> states;
-
     fst (vector<string> &input);
 
     ~fst () = default;
 
     void insert (const shared_ptr<state>& s);
-    shared_ptr<state> findMinimized (shared_ptr<state>& s, int &id_counter);
+    void replaceOrRegister (shared_ptr<state>& s);
+    void addSuffix (shared_ptr<state>& s, string suffix);
+    bool hasChildren (shared_ptr<state>& s);
+    string commonPrefix (string s);
+    shared_ptr<state> findStateByString (string s);
+    shared_ptr<state> lastChild (shared_ptr<state>& s);
+
+    shared_ptr<state> member (const shared_ptr<state>& s);
+    vector<shared_ptr<state>> states;
+    int id_counter;
+
+    static string getSuffix(string s, string prefix);
+    static void printState(const shared_ptr<state>& s);
 };
 
 

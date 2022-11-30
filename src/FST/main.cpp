@@ -1,10 +1,11 @@
 #include <fstream>
+
 #include "fst.h"
 
 using namespace std;
 
 int main () {
-    vector<string> input = {"abacate"};
+    vector<string> input = {"abacate", "car"};
     // int id1 = 2;
     // int id2 = 5;
 
@@ -18,7 +19,14 @@ int main () {
 
     shared_ptr<fst> FST = make_shared<fst>(input);
 
-    //printfst(FST);
+    if (FST->states.empty()) cout << "empty fst";
+    else {
+        for (const auto& s: FST->states) {
+            fst::printState(s);
+            cout << "\n";
+        }
+    }
+    cout << "\n";
 
     return 0;
 }

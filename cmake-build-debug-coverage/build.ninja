@@ -123,6 +123,12 @@ build src/FST/CMakeFiles/FST.dir/fst.cpp.obj: CXX_COMPILER__FST_Debug C$:/Users/
   OBJECT_DIR = src\FST\CMakeFiles\FST.dir
   OBJECT_FILE_DIR = src\FST\CMakeFiles\FST.dir
 
+build src/FST/CMakeFiles/FST.dir/utils.cpp.obj: CXX_COMPILER__FST_Debug C$:/Users/edusi/CLionProjects/FST/src/FST/utils.cpp || cmake_object_order_depends_target_FST
+  DEP_FILE = src\FST\CMakeFiles\FST.dir\utils.cpp.obj.d
+  FLAGS = --coverage -g -std=gnu++14
+  OBJECT_DIR = src\FST\CMakeFiles\FST.dir
+  OBJECT_FILE_DIR = src\FST\CMakeFiles\FST.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target FST
@@ -131,7 +137,7 @@ build src/FST/CMakeFiles/FST.dir/fst.cpp.obj: CXX_COMPILER__FST_Debug C$:/Users/
 #############################################
 # Link the executable ..\binaries\FST.exe
 
-build ../binaries/FST.exe: CXX_EXECUTABLE_LINKER__FST_Debug src/FST/CMakeFiles/FST.dir/main.cpp.obj src/FST/CMakeFiles/FST.dir/state.cpp.obj src/FST/CMakeFiles/FST.dir/fst.cpp.obj
+build ../binaries/FST.exe: CXX_EXECUTABLE_LINKER__FST_Debug src/FST/CMakeFiles/FST.dir/main.cpp.obj src/FST/CMakeFiles/FST.dir/state.cpp.obj src/FST/CMakeFiles/FST.dir/fst.cpp.obj src/FST/CMakeFiles/FST.dir/utils.cpp.obj
   FLAGS = --coverage -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = src\FST\CMakeFiles\FST.dir

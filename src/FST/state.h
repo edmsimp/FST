@@ -14,7 +14,7 @@ using namespace std;
 
 class state {
 public:
-    state (int &i);
+    state ();
     ~state () = default;
 
     void clear ();
@@ -23,7 +23,6 @@ public:
 
     map<char, shared_ptr<state>> transitions;
     bool isFinal;
-    long int id;
 };
 
 
