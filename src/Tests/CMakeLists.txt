@@ -1,2 +1,3 @@
 add_subdirectory(FST)
 add_subdirectory(Levenshtein)
+add_subdirectory(Performance)
