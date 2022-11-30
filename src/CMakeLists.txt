@@ -1,3 +1,6 @@
+add_subdirectory(BalancedTree)
+add_subdirectory(Completers)
 add_subdirectory(FST)
 add_subdirectory(Levenshtein)
 add_subdirectory(Tests)
+add_subdirectory(GUI)

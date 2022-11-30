@@ -1,5 +1,3 @@
-cmake_minimum_required (VERSION 3.11)
-
 include(FetchContent)
  
 set(FETCHCONTENT_UPDATES_DISCONNECTED TRUE)
@@ -12,17 +10,12 @@ if(NOT ftxui_POPULATED)
     FetchContent_Populate(ftxui)
     add_subdirectory(${ftxui_SOURCE_DIR} ${ftxui_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
- 
-project(ftxui-starter
-    LANGUAGES CXX
-    VERSION 1.0.0
-)
- 
-add_executable(ftxui-starter main.cpp)
-target_include_directories(ftxui-starter PRIVATE .)
- 
-target_link_libraries(ftxui-starter
+
+add_executable(ftxui-gui GUI.cpp)
+target_link_libraries(ftxui-gui
+    PUBLIC COMPLETERS_LIB
     PRIVATE ftxui::screen
     PRIVATE ftxui::dom
-    PRIVATE ftxui::component # Not needed for this example.
+    PRIVATE ftxui::component
 )
+target_include_directories(ftxui-gui PRIVATE .)
