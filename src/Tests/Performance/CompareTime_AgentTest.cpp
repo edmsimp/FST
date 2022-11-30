@@ -55,8 +55,9 @@ int main(){
                                        "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
 
     std::list<std::string> testWord = {"Apo", "Bra", "Bat", "Bee", "Bob", "Cam", "Car", "Cat", "Cro",
-                                       "Dao", "Dog", "Ele", "Fra", "Gar", "Gre", "Hog", "Int", "Joe"};
-
+                                       "Dao", "Dog", "Ele", "Fra", "Gar", "Gre", "Hog", "Int", "Joe",
+                                       "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa",
+                                       "aaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaaa", "aaaaaaaaaaaa"};
 
     // Startup tests.               ##################################################################
     // Create Levenshtein Completer.
@@ -115,4 +116,28 @@ int main(){
         writeTime(treeOut, *it);
     }
 
+    // 100 random dictionary words
+    std::cout << "Testing 100 random dictionary words..." << std::endl;
+    testWord.clear();
+    while(testWord.size() < 100){
+        testWord.push_back(dictionary[std::rand() % dictionary.size()]);
+    }
+
+    for(std::list<std::string>::iterator it = testWord.begin(); it != testWord.end(); it++){
+        // Levenshtein
+        genCompleter.selectCompleter(2);
+        updateTime(startTime);
+        genCompleter.autoComplete(*it);
+        updateTime(endTime);
+        
+        writeTime(levenshteinOut, *it);
+
+        // Tree
+        genCompleter.selectCompleter(1);
+        updateTime(startTime);
+        genCompleter.autoComplete(*it);
+        updateTime(endTime);
+        
+        writeTime(treeOut, *it);
+    }
 }
