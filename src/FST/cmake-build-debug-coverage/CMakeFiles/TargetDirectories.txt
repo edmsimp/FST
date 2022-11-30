@@ -1,3 +1,0 @@
-C:/Users/edusi/CLionProjects/FST/src/FST/cmake-build-debug-coverage/CMakeFiles/FST.dir
-C:/Users/edusi/CLionProjects/FST/src/FST/cmake-build-debug-coverage/CMakeFiles/edit_cache.dir
-C:/Users/edusi/CLionProjects/FST/src/FST/cmake-build-debug-coverage/CMakeFiles/rebuild_cache.dir

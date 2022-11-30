@@ -4,8 +4,10 @@
 
 #include "state.h"
 
-state::state() {
-    isFinal = false;
+state::state(int &i) {
+    this->isFinal = false;
+    this->id = i;
+    i++;
 }
 
 void state::clear() {

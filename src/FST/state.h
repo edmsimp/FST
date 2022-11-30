@@ -14,7 +14,7 @@ using namespace std;
 
 class state {
 public:
-    state ();
+    state (int &i);
     ~state () = default;
 
     void clear ();
@@ -25,6 +25,7 @@ public:
     map<char, string> outputs;
     set<string> stateOutput;
     bool isFinal;
+    long int id;
 };
 
 
