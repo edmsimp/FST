@@ -11,12 +11,11 @@ if(NOT ftxui_POPULATED)
     add_subdirectory(${ftxui_SOURCE_DIR} ${ftxui_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
 
-add_executable(ftxui-gui main.cpp)
-include_directories(BalancedTree)
-# target_include_directories(ftxui-starter PRIVATE .)
- 
-# target_link_libraries(ftxui-starter
-#     PRIVATE ftxui::screen
-#     PRIVATE ftxui::dom
-#     PRIVATE ftxui::component
-# )
+add_executable(ftxui-gui GUI.cpp)
+target_link_libraries(ftxui-gui
+    PUBLIC COMPLETERS_LIB
+    PRIVATE ftxui::screen
+    PRIVATE ftxui::dom
+    PRIVATE ftxui::component
+)
+target_include_directories(ftxui-gui PRIVATE .)

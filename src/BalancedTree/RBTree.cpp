@@ -172,13 +172,13 @@ void RBTree::loadTree(std::vector<std::string> &loadVector) {
 }
 
 void RBTree::matchStrings(NodePtr node, std::string &stringToMatch, std::vector<std::string> &matchedStrings, int &quantityToMatch) {
-    if (quantityToMatch == 0) {
+    if (quantityToMatch == 0 or stringToMatch == "") {
         return;
     }
     if (stringToMatch.compare((node->data).substr(0, stringToMatch.size())) <= 0 and node->left != this->TNULL) {
         this->matchStrings(node->left, stringToMatch, matchedStrings, quantityToMatch);
     }
-    if (stringToMatch.compare((node->data).substr(0, stringToMatch.size())) == 0) {
+    if (stringToMatch.compare((node->data).substr(0, stringToMatch.size())) == 0 and quantityToMatch != 0) {
         matchedStrings.push_back(node->data);
         quantityToMatch--;
     }

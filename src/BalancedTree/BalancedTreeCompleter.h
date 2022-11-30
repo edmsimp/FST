@@ -9,11 +9,14 @@
 class BalancedTreeCompleter {
 private:
     RBTree tree;
-    int maxMaches;
-    std::vector<std::string> matchedStrings;
+    int maxMatches;
+    int matchesNumber;
+    std::vector<std::string> *matchedStrings;
 
 public:
-    BalancedTreeCompleter(std::vector<std::string> &dictionary, std::vector<std::string> &matchedStrings, int quantityToMatch);
+    BalancedTreeCompleter(std::vector<std::string> &dictionary, std::vector<std::string> &matchedStrings, int quantityToMatch, int maxQuantityToMatch);
+
+    void setMatchesNumber(int matchesNumber);
 
     void autoComplete(std::string key);
 };
