@@ -30,13 +30,10 @@ int LevenshteinAutomata::levenshteinDistance(std::string s1, std::string s2){
 }
 
 void LevenshteinAutomata::updateDictionary(std::vector<std::string> &newDict){
-    //std::cout << "Clearing dictionary." << std::endl;
     dictionary.clear();
 
     for(std::vector<std::string>::iterator it = newDict.begin(); it != newDict.end(); it++)
         dictionary.push_back(*it);
-
-    //std::cout << "Created dictionary with " << dictionary.size() << " words." << std::endl;
 }
 
 void LevenshteinAutomata::getWords(std::string word, std::vector<std::string> *matchedStrings, int maxMatches){
@@ -50,7 +47,6 @@ void LevenshteinAutomata::getWords(std::string word, std::vector<std::string> *m
 }
 
 void LevenshteinAutomata::resetDictionary(){
-    //std::cout << "Clearing dictionary." << std::endl;
     dictionary.clear();
 
     std::ifstream fs;
@@ -59,12 +55,8 @@ void LevenshteinAutomata::resetDictionary(){
     if(!fs.is_open())
         throw std::runtime_error("Could not open default linux dictionary file!");
 
-    //std::cout << "Found Linux dictionary file." << std::endl;
     std::string currentLine;
-
     while(std::getline(fs, currentLine))
         dictionary.push_back(currentLine);
-
-    //std::cout << "Created dictionary with " << dictionary.size() << " words." << std::endl;
     fs.close();
 }

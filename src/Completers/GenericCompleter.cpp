@@ -1,8 +1,8 @@
 #include "GenericCompleter.h"
 
 GenericCompleter::GenericCompleter(std::vector<std::string> &dictionary, std::vector<std::string> &matchStrings, int quantityToMatch, int maxQuantityToMatch){
-    completer1 = new BalancedTreeCompleter(dictionary, &matchStrings, quantityToMatch, maxQuantityToMatch);
-    completer2 = new LevenshteinCompleter(dictionary, &matchStrings, quantityToMatch, maxQuantityToMatch);
+    completer1 = new FSTCompleter(dictionary, &matchStrings, quantityToMatch, maxQuantityToMatch);
+    completer2 = new BalancedTreeCompleter(dictionary, &matchStrings, quantityToMatch, maxQuantityToMatch);
     completer3 = new LevenshteinCompleter(dictionary, &matchStrings, quantityToMatch, maxQuantityToMatch);
 }
 
