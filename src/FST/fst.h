@@ -26,8 +26,8 @@ public:
     void replaceOrRegister (shared_ptr<state>& s);
     void addSuffix (shared_ptr<state>& s, string suffix);
     bool hasChildren (shared_ptr<state>& s);
-    string commonPrefix (string s);
-    shared_ptr<state> findStateByString (string s);
+    string commonPrefix (string currentWord, string previousWord);
+    shared_ptr<state> findStateByString (shared_ptr<state> &q0, string s);
     shared_ptr<state> lastChild (shared_ptr<state>& s);
 
     shared_ptr<state> member (const shared_ptr<state>& s);

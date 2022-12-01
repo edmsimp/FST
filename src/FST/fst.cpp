@@ -7,19 +7,23 @@
 using namespace std;
 
 fst::fst (vector<string> &input) {
-
     shared_ptr<state> q0 = make_shared<state>();
-    this->states.emplace_back(q0);
+    string previousWord, currentWord;
+    //this->states.emplace_back(q0);
 
     for (int i = 0; i < input.size(); i++) {
-        string word = input[i];
-        string cp = commonPrefix(word);
-        shared_ptr<state> lastState = findStateByString(cp);
-        string cs = getSuffix(word, cp);
+        currentWord = input[i];
+        string cp = commonPrefix(currentWord, previousWord);
+        shared_ptr<state> lastState = findStateByString(q0, cp);
+        string cs = getSuffix(currentWord, cp);
 
-        if (hasChildren(lastState))
+        if (hasChildren(lastState)) {
             replaceOrRegister(lastState);
+        }
+
         addSuffix(lastState, cs);
+
+        previousWord = currentWord;
     }
     replaceOrRegister(q0);
 }
@@ -34,20 +38,15 @@ void fst::insert(const shared_ptr<state>& s) {
     this->states.emplace_back(s);
 }
 
-shared_ptr<state> fst::findStateByString(string s) {
-    shared_ptr<state> aux = this->states[0];
-    for (auto c : s) {
+shared_ptr<state> fst::findStateByString(shared_ptr<state> &q0, string s) {
+    shared_ptr<state> aux = q0;
+    for (auto c : s)
         aux = aux->transitions.find(c)->second;
-        if (aux != aux->transitions.end()->second)
-            return aux;
-    }
-    return this->states[0];
+
+    return aux;
 }
 
 shared_ptr<state> fst::lastChild(shared_ptr<state> &s) {
-  //  map<char, shared_ptr<state>>::iterator it;
-  //  for (it = s->transitions.begin(); it != s->transitions.end(); it++);
-  //   cout << (it)-> first;
     return s->transitions.rend()->second;
 }
 
@@ -65,13 +64,15 @@ bool fst::hasChildren(shared_ptr<state> &s) {
     return !s->transitions.empty();
 }
 
-string fst::commonPrefix(string s) {
+string fst::commonPrefix(string currentWord, string previousWord) {
     string prefix;
-    shared_ptr<state> aux = this->states[0];
-    for (auto c : s) {
-        if (aux->transitions.find(c) != aux->transitions.end())
-            prefix = prefix + c;
-    }
+    if (previousWord.empty()) return "";
+    int i = 0;
+    while (i < currentWord.length() and i < previousWord.length() and currentWord[i] == previousWord[i]) i++;
+
+    for (int j = 0; j < i; j++)
+        prefix = prefix + currentWord[j];
+
     return prefix;
 }
 
@@ -108,6 +109,6 @@ void fst::printState (const shared_ptr<state>& s) {
     else
         for (it_t = s->transitions.begin(); it_t != s->transitions.end(); it_t++) {
             id++;
-            cout << "--- char: " << it_t->first << ", goes to state " << id << endl;
+            cout << "--- char: " << it_t->first << ", goes to state " << it_t->second << endl;
         }
 }
