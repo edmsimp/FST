@@ -14,6 +14,12 @@ public:
     ~FST () = default;
 
     /**
+     * @brief Function that returns the FST number of states.
+     * @return Integer of the corresponding number of states.
+     */
+    int getNumberOfStates();
+
+    /**
      * @brief Function that loads the input dictionary
      * vector into the FST.
      * @param input Dictionary to be loaded.

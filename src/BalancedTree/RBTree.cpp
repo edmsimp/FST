@@ -145,6 +145,7 @@ void RBTree::insert(std::string key) {
     }
 
     this->fixInsert(node);
+    this->numberOfNodes++;
 }
 
 RBTree::RBTree() {
@@ -157,6 +158,10 @@ RBTree::RBTree() {
 
 NodePtr RBTree::getRoot() {
     return this->root;
+}
+
+int RBTree::getNumberOfNodes() {
+    return this->numberOfNodes;
 }
 
 void RBTree::prettyPrint() {

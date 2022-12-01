@@ -28,6 +28,12 @@ public:
     NodePtr getRoot();
 
     /**
+     * @brief Function that returns the RBTree number of nodes.
+     * @return Integer of the corresponding number of nodes.
+     */
+    int getNumberOfNodes();
+
+    /**
      * @brief Function that prints the RBTree.
      */
 	void prettyPrint();
@@ -95,6 +101,7 @@ private:
 
     NodePtr root; // RBTree root.
     NodePtr TNULL; // RBTree NULL node.
+    int numberOfNodes; // RBTree number of nodes
 };
 
 #endif

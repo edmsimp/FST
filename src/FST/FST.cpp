@@ -1,5 +1,9 @@
 #include "FST.h"
 
+int FST::getNumberOfStates() {
+    return this->states.size();
+}
+
 void FST::loadFST(std::vector<std::string> &input) {
     std::shared_ptr<State> q0 = std::make_shared<State>();
     std::string previousWord, currentWord;

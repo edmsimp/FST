@@ -38,7 +38,7 @@ int main(int argc, const char* argv[]) {
  
     auto renderer = ftxui::Renderer(component, [&] {
         // Select the right completer and set the number os strings to search for
-        completer.selectCompleter(menuSelected[0]);
+        completer.selectCompleter(menuSelected[0] + 1);
         completer.setMatchesNumber(menuSelected[1] + 1);
 
         // Generate autocomplete strings
