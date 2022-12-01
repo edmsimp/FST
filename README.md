@@ -20,13 +20,17 @@ Assim, na Figura 1, pode-se observar a distribuição das palavras no dicionári
 
 ## Criação dos Dicionários
 
-Antes de serem realizados quaiser testes quanto à velocidade de execução do algoritmo de *auto-complete*, os três diferentes algoritmos precisam completar uma etapa de preparação. No caso do Autômato de Levenshtein, isso significa importar as palavras do dicionário para uma lista que será percorrida, para a Árvore RB e o FST, criar as suas estruturas típicas, com base no dicionário de palavras especificado. 
+Antes de serem realizados quaiser testes quanto à velocidade de execução do algoritmo de *auto-complete*, os três diferentes algoritmos precisam completar uma etapa de preparação. No caso do Autômato de Levenshtein, isso significa importar as palavras do dicionário para uma lista que será percorrida, para a Árvore RB e o FST, criar as suas estruturas típicas, com base no dicionário de palavras especificado.
 
-Assim, os tempos de preparação de cada um dos algoritmos estão apresentados no gráfico da Figura 1. Analisando-se os resultados apresentados na figura, nota-se que o tempo de preparação do Autômato de Levenshtein é significativamente menor que os demais, o que se deve ao fato de esta etapa, para esse algoritmo, ser constituída simplesmente pela adição das *strings* do dicionário, sem que computações adicionais sejam feitas.
+Assim, os tempos de preparação de cada um dos algoritmos estão apresentados nos gráficos das Figura 2 e 3. Analisando-se os resultados apresentados na figura, nota-se que o tempo de preparação do Autômato de Levenshtein é significativamente menor que os demais, o que se deve ao fato de esta etapa, para esse algoritmo, ser constituída simplesmente pela adição das *strings* do dicionário, sem que computações adicionais sejam feitas.
 
 | ![preptime](./src/Analysis/dict_creation.png) |
 |-|
-|Figura 2: Tempos de construção das estruturas dos três métodos utilizados. Nota-se que o Autômato de Levenshtein tem um tempo significativamente menor devido ao fato de simplesmente copiar o dicionário utilizado, sem realizar nenhuma operação para reduzi-lo.|
+|Figura 2: Tempos de construção das estruturas do Autômato de Levenshtein e da Árvore Rubro-Negra. Nota-se que o Autômato de Levenshtein tem um tempo significativamente menor devido ao fato de simplesmente copiar o dicionário utilizado, sem realizar nenhuma operação para reduzi-lo.|
+
+| ![preptimefst](./src/Analysis/dict_fst.png) |
+|-|
+|Figura 3: Tempo de construção da estrutura do algoritmo FST. Percebe-se que, devido a quantidade elevada de operações que o método realiza, ele demora um tempo considerável para ficar pronto para a execução.|
 
 ## Testes com Caractere Único
 
@@ -34,15 +38,15 @@ Para uma comparação inicial, foram feitos testes de *auto-complete* utilizando
 
 |![levenchar](./src/Analysis/leven_char.png)|
 | :-: |
-|Figura 3: Tempos de execução para cada letra do alfabeto do autômato de Levenshtein com distância 1.|
+|Figura 4: Tempos de execução para cada letra do alfabeto do autômato de Levenshtein com distância 1.|
 
 |![rbchar](./src/Analysis/rb_char.png)|
 | :-: |
-|Figura 4: Tempos de execução para cada letra do alfabeto da árvore rubro-negra.|
+|Figura 5: Tempos de execução para cada letra do alfabeto da árvore rubro-negra.|
 
-|![fstchar](./src/Analysis/rb_char.png)|
+|![fstchar](./src/Analysis/fst_char.png)|
 | :-: |
-|Figura 5: Tempos de execução para cada letra do alfabeto do FST.|
+|Figura 6: Tempos de execução para cada letra do alfabeto do FST.|
 
 ## Testes com String Fixa
 
@@ -52,17 +56,17 @@ Para a segunda bateria de testes, foram escolhidas algumas *strings* a mão, de 
 
 |![levstr](./src/Analysis/leven_str.png)|
 | :-: |
-|Figura 6: Tempos de execução para *strings* pré-definidas utilizando o Autômato de Levenshtein buscando palavras com distância 1.|
+|Figura 7: Tempos de execução para *strings* pré-definidas utilizando o Autômato de Levenshtein buscando palavras com distância 1.|
 
 |![rbstr](./src/Analysis/rb_str.png)|
 | :-: |
-|Figura 7: Tempos de execução para *strings* pré-definidas utilizando a Árvore Rubro-Negra.|
+|Figura 8: Tempos de execução para *strings* pré-definidas utilizando a Árvore Rubro-Negra.|
 
-|![rbstr](./src/Analysis/rb_str.png)|
+|![rbstr](./src/Analysis/fst_str.png)|
 | :-: |
-|Figura 8: Tempos de execução para *strings* pré-definidas utilizando o FST.|
+|Figura 9: Tempos de execução para *strings* pré-definidas utilizando o FST.|
 
-Comparando-se os três algoritmos, é possível constatar que o tempo de execução do Autômato de Levenshtein tende a crescer significativamente com o aumento do tamanho da *string*, o que se deve ao fato de o algoritmo se basear em uma verificação caractere a caractere da *string* analisada. Finalmente, nota-se que, para os demais, o tamanho da *string* não aparenta ter grande influência sobre os tempos de execução.
+Comparando-se os três algoritmos, é possível constatar que o tempo de execução do Autômato de Levenshtein tende a crescer significativamente com o aumento do tamanho da *string*, o que se deve ao fato de o algoritmo se basear em uma verificação caractere a caractere da *string* analisada.
 
 ## Testes com String Aleatória
 
@@ -70,15 +74,15 @@ Para a última bateria de testes, foram selecionadas 100 *strings* do dicionári
 
 |![levrand](./src/Analysis/leven_rand.png)|
 | :-: |
-|Figura 9: Tempos de execução do Autômato de Levenshtein com entrada de 100 *strings* selecionadas aleatoriamente do dicionário.|
+|Figura 10: Tempos de execução do Autômato de Levenshtein com entrada de 100 *strings* selecionadas aleatoriamente do dicionário.|
 
 |![rbrand](./src/Analysis/rb_rand.png)|
 | :-: |
-|Figura 9: Tempos de execução da Árvore Rubro-Negra com entrada de 100 *strings* selecionadas aleatoriamente do dicionário.|
+|Figura 11: Tempos de execução da Árvore Rubro-Negra com entrada de 100 *strings* selecionadas aleatoriamente do dicionário.|
 
-|![fstrand](./src/Analysis/rb_rand.png)|
+|![fstrand](./src/Analysis/fst_rand.png)|
 | :-: |
-|Figura 10: Tempos de execução do FST com entrada de 100 *strings* selecionadas aleatoriamente do dicionário.|
+|Figura 12: Tempos de execução do FST com entrada de 100 *strings* selecionadas aleatoriamente do dicionário.|
 
 ## Análise de Memória
 

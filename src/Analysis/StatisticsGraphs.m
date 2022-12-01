@@ -5,16 +5,27 @@ fst_stats = readtable('../../binaries/fst_statistics.csv');
 
 %% Dictionary Creation
 
-prep_time = [leven_stats.executionTime_ns_(1), rb_stats.executionTime_ns_(1), fst_stats.executionTime_ns_(1)];
+prep_time = [leven_stats.executionTime_ns_(1), rb_stats.executionTime_ns_(1)];
 bar(prep_time / 10^6, 'FaceColor', '#D95319');
 hold on;
 title("Tempo de Preparação dos Métodos");
 ylabel("Tempo (ms)");
 xlabel("Método");
-set(gca, 'xticklabel', {'Levenshtein', 'Árvore RB', 'FST'});
+set(gca, 'xticklabel', {'Levenshtein', 'Árvore RB'});
 hold off;
 
 print -dpng -r400 dict_creation.png
+
+prep_time = fst_stats.executionTime_ns_(1);
+bar(prep_time / 10^9, 'FaceColor', '#D95319');
+hold on;
+title("Tempo de Preparação dos Métodos");
+ylabel("Tempo (s)");
+xlabel("Método");
+set(gca, 'xticklabel', {'FST'});
+hold off;
+
+print -dpng -r400 dict_fst.png
 
 %% Studying the Used Dictionary
 dictionary = readtable('/usr/share/dict/american-english').A;
@@ -61,6 +72,21 @@ hold off;
 print -dpng -r400 rb_char.png
 
 % FST
+fst_chars = fst_stats.executionTime_ns_(2:261);
+fst_chars = reshape(fst_chars, [26, 10]);
+
+fst_char = mean(fst_chars, 2);
+
+plot(fst_char(:, 1) / 10^3, 'LineWidth', 1.5, 'Color', '#EDB120');
+hold on;
+title("Caractere Único - FST");
+ylabel("Tempo (us)");
+xlabel("Caractere");
+xticks([1, 6, 12, 18, 26]);
+xticklabels({'a', 'f', 'l', 'r', 'z'});
+legend('FST');
+hold off;
+print -dpng -r400 fst_char.png
 
 %% Set String
 % Levenshtein
@@ -88,7 +114,16 @@ hold off;
 print -dpng -r400 rb_str.png
 
 % FST
+fst_str = fst_stats.executionTime_ns_(262:290);
 
+plot(fst_str(:, 1) / 10^3, 'LineWidth', 1.5, 'Color', '#EDB120');
+hold on;
+title("String Pré-Definida - FST");
+ylabel("Tempo (us)");
+xlabel("Número da String Testada");
+legend('FST');
+hold off;
+print -dpng -r400 fst_str.png
 
 %% Random 100 Strings
 % Levenshtein
@@ -118,3 +153,14 @@ hold off;
 print -dpng -r400 rb_rand.png
 
 % FST
+fst_str = fst_stats.executionTime_ns_(291:390);
+
+plot(fst_str / 10^3, 'LineWidth', 1.5, 'Color', '#EDB120');
+hold on;
+yline(mean(fst_str) / 10^3,'--r');
+title("100 Strings Aleatórias - FST");
+ylabel("Tempo (us)");
+xlabel("Número de Strings Testadas");
+legend('FST', 'Média');
+hold off;
+print -dpng -r400 fst_rand.png
