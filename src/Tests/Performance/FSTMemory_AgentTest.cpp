@@ -1,4 +1,5 @@
-#include "LevenshteinCompleter.h"
+#include "FSTCompleter.h"
+#include <fstream>
 
 int main(){
     std::vector<std::string> dictionary;
@@ -17,5 +18,5 @@ int main(){
 
     fs.close();
 
-    LevenshteinCompleter completer(dictionary, &matches, 10, 10);
+    FSTCompleter completer(dictionary, &matches, 10, 10);
 }

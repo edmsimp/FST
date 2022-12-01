@@ -85,7 +85,7 @@ int main(){
 
     // Create FST Completer.
     updateTime(startTime);
-    //BalancedTreeCompleter treeCompleter(dictionary, &answers, 10, 10);
+    FSTCompleter fstCompleter(dictionary, &answers, 10, 10);
     updateTime(endTime);
     writeTime(fstOut, "createDict");
 
@@ -93,15 +93,48 @@ int main(){
     // Generic Completer.
     GenericCompleter genCompleter(dictionary, answers, 10, 10);
 
-    // RB Tree tests.               ##################################################################
-    std::cout << "RB Tree Tests" << std::endl;
+    
+    // FST tests.                   ##################################################################
+    std::cout << "FST Tests" << std::endl;
     genCompleter.selectCompleter(1);
 
     // Alphabet
-    std::cout << "Testing letters..." << std::endl;
-    
     for(int i = 1; i <= 10; i++){
-        std::cout << "Test iteration " << i << std::endl;
+        for(std::list<std::string>::iterator it = alphabet.begin(); it != alphabet.end(); it++){
+            updateTime(startTime);
+            genCompleter.autoComplete(*it);
+            updateTime(endTime);
+            
+            writeTime(fstOut, *it);
+        }
+    }
+
+    // Strings
+    for(std::list<std::string>::iterator it = testWord.begin(); it != testWord.end(); it++){
+        updateTime(startTime);
+        genCompleter.autoComplete(*it);
+        updateTime(endTime);
+        
+        writeTime(fstOut, *it);
+    }
+
+    // 100 random dictionary words
+    for(std::list<std::string>::iterator it = testRand.begin(); it != testRand.end(); it++){
+        genCompleter.selectCompleter(1);
+        updateTime(startTime);
+        genCompleter.autoComplete(*it);
+        updateTime(endTime);
+        
+        writeTime(fstOut, *it);
+    }
+
+
+    // RB Tree tests.               ##################################################################
+    std::cout << "RB Tree Tests" << std::endl;
+    genCompleter.selectCompleter(2);
+
+    // Alphabet
+    for(int i = 1; i <= 10; i++){
         for(std::list<std::string>::iterator it = alphabet.begin(); it != alphabet.end(); it++){
             updateTime(startTime);
             genCompleter.autoComplete(*it);
@@ -112,7 +145,6 @@ int main(){
     }
 
     // Strings
-    std::cout << "Testing strings..." << std::endl;
     for(std::list<std::string>::iterator it = testWord.begin(); it != testWord.end(); it++){
         updateTime(startTime);
         genCompleter.autoComplete(*it);
@@ -122,7 +154,6 @@ int main(){
     }
 
     // 100 random dictionary words
-    std::cout << "Testing 100 random dictionary words..." << std::endl;
     for(std::list<std::string>::iterator it = testRand.begin(); it != testRand.end(); it++){
         genCompleter.selectCompleter(1);
         updateTime(startTime);
@@ -134,7 +165,7 @@ int main(){
 
     // Levenshtein tests.           ##################################################################
     std::cout << "Levenshtein Tests" << std::endl;
-    genCompleter.selectCompleter(2);
+    genCompleter.selectCompleter(3);
     
     // Alphabet
     std::cout << "Testing letters..." << std::endl;
@@ -161,6 +192,7 @@ int main(){
     }
 
     // 100 random dictionary words
+    std::cout << "Testing words..." << std::endl;
     for(std::list<std::string>::iterator it = testRand.begin(); it != testRand.end(); it++){
         updateTime(startTime);
         genCompleter.autoComplete(*it);
@@ -168,41 +200,4 @@ int main(){
         
         writeTime(levenshteinOut, *it);
     }
-
-
-    // FST tests.                   ##################################################################
-    // std::cout << "FST Tests" << std::endl;
-    // genCompleter.selectCompleter(3);
-
-    // // Alphabet
-    // std::cout << "Testing letters..." << std::endl;
-    
-    // for(std::list<std::string>::iterator it = alphabet.begin(); it != alphabet.end(); it++){
-    //     updateTime(startTime);
-    //     genCompleter.autoComplete(*it);
-    //     updateTime(endTime);
-        
-    //     writeTime(fstOut, *it);
-    // }
-
-    // // Strings
-    // std::cout << "Testing strings..." << std::endl;
-    // for(std::list<std::string>::iterator it = testWord.begin(); it != testWord.end(); it++){
-    //     updateTime(startTime);
-    //     genCompleter.autoComplete(*it);
-    //     updateTime(endTime);
-        
-    //     writeTime(fstOut, *it);
-    // }
-
-    // // 100 random dictionary words
-    // std::cout << "Testing 100 random dictionary words..." << std::endl;
-    // for(std::list<std::string>::iterator it = testRand.begin(); it != testRand.end(); it++){
-    //     genCompleter.selectCompleter(1);
-    //     updateTime(startTime);
-    //     genCompleter.autoComplete(*it);
-    //     updateTime(endTime);
-        
-    //     writeTime(fstOut, *it);
-    // }
 }
