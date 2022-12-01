@@ -12,9 +12,8 @@ void FSTCompleter::setMatchesNumber(int matchesNumber) {
 }
 
 void FSTCompleter::autoComplete(std::string key) {
-    //NodePtr treeRoot = this->tree.getRoot();
     this->matchedStrings->clear();
-    //this->tree.matchStrings(treeRoot, key, *this->matchedStrings, this->matchesNumber);
+    this->fst.matchStrings(key, *this->matchedStrings, this->matchesNumber);
     for (int i = this->matchedStrings->size(); i < this->maxMatches; i++) {
         this->matchedStrings->push_back("");
     }

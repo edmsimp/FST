@@ -1,1 +1,1 @@
-add_executable(FST main.cpp State.cpp State.h FST.cpp FST.h)
+add_executable(FST main.cpp State.cpp State.h FST.cpp FST.h FSTCompleter.cpp FSTCompleter.h)

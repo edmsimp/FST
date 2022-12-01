@@ -89,3 +89,44 @@ std::string FST::getSuffix (std::string s, const std::string& prefix) {
     }
     return q;
 }
+
+void FST::matchStrings(std::string &stringToMatch, std::vector<std::string> &matchedStrings, int &quantityToMatch) {
+    if (stringToMatch == "") {
+        return;
+    }
+
+    char c;
+    int i = 0;
+    std::string currentString;
+    std::shared_ptr<State> s = this->states[0];
+
+    while (currentString != stringToMatch) {
+        c = stringToMatch[i];
+        if (s->transitions.find(c) == s->transitions.end())
+            return;
+        s = s->transitions.find(c)->second;
+        currentString = currentString + c;
+        i++;
+    }
+
+    this->recursiveMatchStrings(s, stringToMatch, currentString, matchedStrings, quantityToMatch);
+}
+
+void FST::recursiveMatchStrings(std::shared_ptr<State> node, std::string &stringToMatch, std::string &currentString, 
+                                std::vector<std::string> &matchedStrings, int &quantityToMatch) {
+    if (quantityToMatch == 0) {
+        return;
+    }
+
+    if (node->isFinal) {
+        matchedStrings.push_back(currentString);
+        quantityToMatch--;
+    }
+
+    for (auto it = node->transitions.begin(); it != node->transitions.end(); it++) {
+        currentString = currentString + it->first;
+        this->recursiveMatchStrings(it->second, stringToMatch, currentString, matchedStrings, quantityToMatch);
+    }
+
+    currentString = currentString.substr(0, currentString.size() - 1);
+}
