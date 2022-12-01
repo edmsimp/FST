@@ -1,20 +1,20 @@
 #include <fstream>
 
-#include "fst.h"
+#include "FST.h"
 
 using namespace std;
 
 int main () {
     vector<string> input = {"febuary", "january"};
 
-    shared_ptr<fst> FST = make_shared<fst>(input);
+    shared_ptr<FST> fst = make_shared<FST>(input);
 
     cout << "\n\n PRINT \n\n";
 
-    if (FST->states.empty()) cout << "empty fst";
+    if (fst->states.empty()) cout << "empty fst";
     else {
-        for (const auto& s: FST->states) {
-            fst::printState(s);
+        for (const auto& s: fst->states) {
+            FST::printState(s);
             cout << "\n";
         }
     }

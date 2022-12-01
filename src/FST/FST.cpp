@@ -1,15 +1,11 @@
-//
-// Created by edusi on 29/11/2022.
-//
-
-#include "fst.h"
+#include "FST.h"
 
 using namespace std;
 
-fst::fst (vector<string> &input) {
+void FST::loadFST(vector<string> &input) {
     shared_ptr<state> q0 = make_shared<state>();
-    string previousWord, currentWord;
     this->states.emplace_back(q0);
+    string previousWord, currentWord;
 
     for (int i = 0; i < input.size(); i++) {
         currentWord = input[i];
@@ -28,17 +24,17 @@ fst::fst (vector<string> &input) {
     replaceOrRegister(q0);
 }
 
-shared_ptr<state> fst::member (const shared_ptr<state>& s) {
+shared_ptr<state> FST::member (const shared_ptr<state>& s) {
     for (auto r : this->states)
         if (r->compareState(s)) return r;
     return nullptr;
 }
 
-void fst::insert(const shared_ptr<state>& s) {
+void FST::insert(const shared_ptr<state>& s) {
     this->states.emplace_back(s);
 }
 
-shared_ptr<state> fst::findStateByString(shared_ptr<state> &q0, string s) {
+shared_ptr<state> FST::findStateByString(shared_ptr<state> &q0, string s) {
     shared_ptr<state> aux = q0;
     if (q0->transitions.empty()) return q0;
     for (auto c : s)
@@ -47,11 +43,11 @@ shared_ptr<state> fst::findStateByString(shared_ptr<state> &q0, string s) {
     return aux;
 }
 
-shared_ptr<state> fst::lastChild(shared_ptr<state> &s) {
+shared_ptr<state> FST::lastChild(shared_ptr<state> &s) {
     return s->transitions.rbegin()->second;
 }
 
-void fst::addSuffix(shared_ptr<state> &s, string suffix) {
+void FST::addSuffix(shared_ptr<state> &s, string suffix) {
     shared_ptr<state> aux = s;
     for (int i = 0; i < suffix.size(); i++) {
         shared_ptr<state> r = make_shared<state>();
@@ -61,11 +57,11 @@ void fst::addSuffix(shared_ptr<state> &s, string suffix) {
     aux->isFinal = true;
 }
 
-bool fst::hasChildren(shared_ptr<state> &s) {
+bool FST::hasChildren(shared_ptr<state> &s) {
     return !s->transitions.empty();
 }
 
-string fst::commonPrefix(string currentWord, string previousWord) {
+string FST::commonPrefix(string currentWord, string previousWord) {
     string prefix;
     if (previousWord.empty()) return "";
     int i = 0;
@@ -77,7 +73,7 @@ string fst::commonPrefix(string currentWord, string previousWord) {
     return prefix;
 }
 
-void fst::replaceOrRegister(shared_ptr<state> &s) {
+void FST::replaceOrRegister(shared_ptr<state> &s) {
     shared_ptr<state> child = lastChild(s);
     if (hasChildren(child))
         replaceOrRegister(child);
@@ -90,7 +86,7 @@ void fst::replaceOrRegister(shared_ptr<state> &s) {
         this->insert(child);
 }
 
-string fst::getSuffix (string s, string prefix) {
+string FST::getSuffix (string s, string prefix) {
     string q;
     for (int i = prefix.length(); i < s.length(); i++) {
         q = q + s[i];
@@ -99,7 +95,7 @@ string fst::getSuffix (string s, string prefix) {
     return q;
 }
 
-void fst::printState (const shared_ptr<state>& s) {
+void FST::printState (const shared_ptr<state>& s) {
     map<char, shared_ptr<state>>::iterator it_t;
     map<char, string>::iterator it_o;
     int id = 0;

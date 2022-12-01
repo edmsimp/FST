@@ -1,8 +1,4 @@
-//
-// Created by edusi on 29/11/2022.
-//
-
-#include "state.h"
+#include "State.h"
 
 state::state() {
     this->isFinal = false;

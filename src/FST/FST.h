@@ -1,6 +1,3 @@
-//
-// Created by edusi on 29/11/2022.
-//
 #ifndef FST_FST_H
 #define FST_FST_H
 
@@ -8,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-#include "state.h"
+#include "State.h"
 
 #define FIRST_CHAR '\''
 #define LAST_CHAR 'z'
@@ -16,12 +13,13 @@
 
 using namespace std;
 
-class fst {
+class FST {
 public:
-    fst (vector<string> &input);
+    FST () = default;
 
-    ~fst () = default;
+    ~FST () = default;
 
+    void loadFST(vector<string> &input);
     void insert (const shared_ptr<state>& s);
     void replaceOrRegister (shared_ptr<state>& s);
     void addSuffix (shared_ptr<state>& s, string suffix);
@@ -39,4 +37,4 @@ public:
 };
 
 
-#endif //FST_FST_H
+#endif
