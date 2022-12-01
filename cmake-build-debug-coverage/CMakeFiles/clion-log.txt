@@ -1,5 +1,0 @@
-"C:\Program Files\JetBrains\CLion 2022.2.4\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2022.2.4/bin/ninja/win/ninja.exe" -DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -G Ninja -S C:\Users\edusi\CLionProjects\FST -B C:\Users\edusi\CLionProjects\FST\cmake-build-debug-coverage
-Current Source Directory: C:/Users/edusi/CLionProjects/FST
--- Configuring done
--- Generating done
--- Build files have been written to: C:/Users/edusi/CLionProjects/FST/cmake-build-debug-coverage
