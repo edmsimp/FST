@@ -19,6 +19,9 @@ void writeTime(std::ofstream &outputFile, std::string word){
 int main(){
     // Preparing the output files.  ##################################################################
     std::ofstream levenshteinOut, fstOut, treeOut;
+    
+    time_t programTimestamp = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+
     levenshteinOut.open("levenshtein_statistics.csv");
     fstOut.open("fst_statistics.csv");
     treeOut.open("tree_statistics.csv");
@@ -31,6 +34,7 @@ int main(){
     levenshteinOut << "string, executionTime (ns)" << std::endl;
     fstOut << "string, executionTime (ns)" << std::endl;
     treeOut << "string, executionTime (ns)" << std::endl;
+
 
     // Loading American Dictionary. ##################################################################
     std::ifstream fs;
@@ -72,8 +76,16 @@ int main(){
     updateTime(endTime);
     writeTime(treeOut, "createDict");
 
+    // Create FST Completer.
+    updateTime(startTime);
+    //BalancedTreeCompleter treeCompleter(dictionary, &answers, 10, 10);
+    updateTime(endTime);
+    writeTime(fstOut, "createDict");
+
+
     // Generic Completer.
     GenericCompleter genCompleter(dictionary, answers, 10, 10);
+
 
     // String tests.                ##################################################################
     // Alphabet
@@ -94,6 +106,14 @@ int main(){
         updateTime(endTime);
         
         writeTime(treeOut, *it);
+
+        // FST
+        genCompleter.selectCompleter(3);
+        updateTime(startTime);
+        genCompleter.autoComplete(*it);
+        updateTime(endTime);
+        
+        writeTime(fstOut, *it);
     }
 
     // Strings
@@ -114,6 +134,14 @@ int main(){
         updateTime(endTime);
         
         writeTime(treeOut, *it);
+
+        // FST
+        genCompleter.selectCompleter(3);
+        updateTime(startTime);
+        genCompleter.autoComplete(*it);
+        updateTime(endTime);
+        
+        writeTime(fstOut, *it);
     }
 
     // 100 random dictionary words
@@ -139,5 +167,13 @@ int main(){
         updateTime(endTime);
         
         writeTime(treeOut, *it);
+
+        // FST
+        genCompleter.selectCompleter(3);
+        updateTime(startTime);
+        genCompleter.autoComplete(*it);
+        updateTime(endTime);
+        
+        writeTime(fstOut, *it);
     }
 }

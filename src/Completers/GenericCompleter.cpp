@@ -5,7 +5,7 @@ GenericCompleter::GenericCompleter(std::vector<std::string> &dictionary, std::ve
     completer2 = new LevenshteinCompleter(dictionary, &matchStrings, quantityToMatch, maxQuantityToMatch);
     completer3 = new LevenshteinCompleter(dictionary, &matchStrings, quantityToMatch, maxQuantityToMatch);
 }
-    
+
 void GenericCompleter::selectCompleter(int completerId){
     activeCompleter = completerId;
 }
