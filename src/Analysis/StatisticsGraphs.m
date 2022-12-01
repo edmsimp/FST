@@ -8,13 +8,22 @@ fst_stats = readtable('../../binaries/fst_statistics.csv');
 prep_time = [leven_stats.executionTime_ns_(1), rb_stats.executionTime_ns_(1), fst_stats.executionTime_ns_(1)];
 bar(prep_time / 10^6, 'FaceColor', '#D95319');
 hold on;
-title("Tempo de Preparação dos Métodos (ms)");
-ylabel("Milissegundos");
+title("Tempo de Preparação dos Métodos");
+ylabel("Tempo (ms)");
 xlabel("Método");
 set(gca, 'xticklabel', {'Levenshtein', 'Árvore RB', 'FST'});
 hold off;
 
 print -dpng -r400 dict_creation.png
+
+%% Studying the Used Dictionary
+dictionary = readtable('/usr/share/dict/american-english').A;
+letters = cellfun(@(s)lower(s(1)), dictionary);
+[GC, GR] = groupcounts(letters);
+bar(GC)
+xticklabels({'a', 'e', 'j', 'o', 't', 'y'});
+GR
+print -dpng -r400 dict_dist.png
 
 %% Single Character
 % Levenshtein
@@ -22,7 +31,7 @@ leven_char = leven_stats.executionTime_ns_(2:27);
 
 plot(leven_char(:, 1) / 10^6, 'LineWidth', 1.5, 'Color', '#0072BD');
 hold on;
-title("Char Único");
+title("Caractere Único - Levenshtein");
 ylabel("Tempo (ms)");
 xlabel("Caractere");
 xticks([1, 6, 12, 18, 26]);
@@ -36,7 +45,7 @@ rb_char = rb_stats.executionTime_ns_(2:27);
 
 plot(rb_char(:, 1) / 10^3, 'LineWidth', 1.5, 'Color', '#D95319');
 hold on;
-title("Char Único");
+title("Caractere Único - RB Tree");
 ylabel("Tempo (us)");
 xlabel("Caractere");
 xticks([1, 6, 12, 18, 26]);

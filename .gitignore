@@ -38,3 +38,6 @@ binaries
 cmake-build-debug
 cmake-build-release
 .vscode/
+
+# MATLAB Analysis
+*.asv
