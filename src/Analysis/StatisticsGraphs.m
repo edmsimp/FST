@@ -27,9 +27,12 @@ print -dpng -r400 dict_dist.png
 
 %% Single Character
 % Levenshtein
-leven_char = leven_stats.executionTime_ns_(2:27);
+leven_chars = leven_stats.executionTime_ns_(2:261);
+leven_chars = reshape(leven_chars, [26, 10]);
 
-plot(leven_char(:, 1) / 10^6, 'LineWidth', 1.5, 'Color', '#0072BD');
+leven_char = mean(leven_chars, 2);
+
+plot(leven_char / 10^6, 'LineWidth', 1.5, 'Color', '#0072BD');
 hold on;
 title("Caractere Único - Levenshtein");
 ylabel("Tempo (ms)");
@@ -41,7 +44,10 @@ hold off;
 print -dpng -r400 leven_char.png
 
 % RB Tree
-rb_char = rb_stats.executionTime_ns_(2:27);
+rb_chars = rb_stats.executionTime_ns_(2:261);
+rb_chars = reshape(rb_chars, [26, 10]);
+
+rb_char = mean(rb_chars, 2);
 
 plot(rb_char(:, 1) / 10^3, 'LineWidth', 1.5, 'Color', '#D95319');
 hold on;
@@ -58,25 +64,25 @@ print -dpng -r400 rb_char.png
 
 %% Set String
 % Levenshtein
-leven_str = leven_stats.executionTime_ns_(28:56);
+leven_str = leven_stats.executionTime_ns_(262:290);
 
 plot(leven_str(:, 1) / 10^6, 'LineWidth', 1.5, 'Color', '#0072BD');
 hold on;
-title("String Selecionada");
+title("String Pré-Definida - Levenshtein");
 ylabel("Tempo (ms)");
-xlabel("Caractere");
+xlabel("Número da String Testada");
 legend('Levenshtein');
 hold off;
 print -dpng -r400 leven_str.png
 
 % RB Tree
-rb_str = rb_stats.executionTime_ns_(28:56);
+rb_str = rb_stats.executionTime_ns_(262:290);
 
 plot(rb_str(:, 1) / 10^3, 'LineWidth', 1.5, 'Color', '#D95319');
 hold on;
-title("Char Único");
+title("String Pré-Definida - RB Tree");
 ylabel("Tempo (us)");
-xlabel("Caractere");
+xlabel("Número da String Testada");
 legend('RB Tree');
 hold off;
 print -dpng -r400 rb_str.png
@@ -85,3 +91,28 @@ print -dpng -r400 rb_str.png
 
 
 %% Random 100 Strings
+% Levenshtein
+leven_str = leven_stats.executionTime_ns_(291:390);
+
+plot(leven_str(:, 1) / 10^6, 'LineWidth', 1.5, 'Color', '#0072BD');
+hold on;
+title("100 Strings Aleatórias - Levenshtein");
+ylabel("Tempo (ms)");
+xlabel("Número de Strings Testadas");
+legend('Levenshtein');
+hold off;
+print -dpng -r400 leven_rand.png
+
+% RB Tree
+rb_str = rb_stats.executionTime_ns_(291:390);
+
+plot(rb_str(:, 1) / 10^3, 'LineWidth', 1.5, 'Color', '#D95319');
+hold on;
+title("100 Strings Aleatórias - RB Tree");
+ylabel("Tempo (us)");
+xlabel("Número de Strings Testadas");
+legend('RB Tree');
+hold off;
+print -dpng -r400 rb_rand.png
+
+% FST
