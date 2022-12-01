@@ -54,9 +54,7 @@ public:
     int levenshteinDistance(std::string firstString, std::string secondString);
 
 private:
-    // The dictionary that stores the words.
-    // std::vector<std::list<std::string>> dictionary;
-    std::list<std::string> dictionary;
+    std::list<std::string> dictionary; // The dictionary that stores the words.
 };
 
 #endif
