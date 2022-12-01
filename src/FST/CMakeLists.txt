@@ -1,1 +1,4 @@
-add_executable(FST main.cpp State.cpp State.h FST.cpp FST.h FSTCompleter.cpp FSTCompleter.h)
+file(GLOB SRCS *.cpp)
+
+add_library(FST_LIB ${SRCS})
+target_include_directories(FST_LIB PUBLIC .)

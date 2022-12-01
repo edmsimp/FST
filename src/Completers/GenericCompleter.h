@@ -3,6 +3,7 @@
 
 #include "BalancedTreeCompleter.h"
 #include "LevenshteinCompleter.h"
+#include "FSTCompleter.h"
 
 class GenericCompleter{
 public:
@@ -14,9 +15,8 @@ public:
 
 private:
     int activeCompleter = 1;
-    //@TODO: Add completer 3
-    BalancedTreeCompleter* completer1;
-    LevenshteinCompleter* completer2;
+    FSTCompleter* completer1;
+    BalancedTreeCompleter* completer2;
     LevenshteinCompleter* completer3;
 };
 
