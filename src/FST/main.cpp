@@ -5,9 +5,11 @@
 using namespace std;
 
 int main () {
-    vector<string> input = {"abacate", "abacaxi"};
+    vector<string> input = {"febuary", "january"};
 
     shared_ptr<fst> FST = make_shared<fst>(input);
+
+    cout << "\n\n PRINT \n\n";
 
     if (FST->states.empty()) cout << "empty fst";
     else {

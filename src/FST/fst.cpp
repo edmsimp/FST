@@ -9,7 +9,7 @@ using namespace std;
 fst::fst (vector<string> &input) {
     shared_ptr<state> q0 = make_shared<state>();
     string previousWord, currentWord;
-    //this->states.emplace_back(q0);
+    this->states.emplace_back(q0);
 
     for (int i = 0; i < input.size(); i++) {
         currentWord = input[i];
@@ -40,6 +40,7 @@ void fst::insert(const shared_ptr<state>& s) {
 
 shared_ptr<state> fst::findStateByString(shared_ptr<state> &q0, string s) {
     shared_ptr<state> aux = q0;
+    if (q0->transitions.empty()) return q0;
     for (auto c : s)
         aux = aux->transitions.find(c)->second;
 
@@ -47,7 +48,7 @@ shared_ptr<state> fst::findStateByString(shared_ptr<state> &q0, string s) {
 }
 
 shared_ptr<state> fst::lastChild(shared_ptr<state> &s) {
-    return s->transitions.rend()->second;
+    return s->transitions.rbegin()->second;
 }
 
 void fst::addSuffix(shared_ptr<state> &s, string suffix) {
@@ -83,7 +84,7 @@ void fst::replaceOrRegister(shared_ptr<state> &s) {
 
     shared_ptr<state> q = member(child);
     if (q != nullptr) {
-        lastChild(s) = q;
+        s->transitions.rbegin()->second = q;
     }
     else
         this->insert(child);
@@ -102,7 +103,7 @@ void fst::printState (const shared_ptr<state>& s) {
     map<char, shared_ptr<state>>::iterator it_t;
     map<char, string>::iterator it_o;
     int id = 0;
-    cout << "state " << id;
+    cout << "state " << s;
     if (s->isFinal) cout << "(final)";
     cout << "\ntransitions: " << "\n";
     if (s->transitions.empty()) cout << "--- no transitions\n";
