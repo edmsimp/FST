@@ -1,29 +1,20 @@
-//
-// Created by edusi on 29/11/2022.
-//
+#ifndef FST_STATE_H
+#define FST_STATE_H
 
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
 
-#ifndef FST_STATE_H
-#define FST_STATE_H
-
-using namespace std;
-
-class state {
+class State {
 public:
-    state ();
-    ~state () = default;
+    State();
+    ~State() = default;
 
-    void clear ();
-    void copyState (const shared_ptr<state>& s);
-    bool compareState (const shared_ptr<state>& s) const;
+    bool compareState(const std::shared_ptr<State>& s) const;
 
-    map<char, shared_ptr<state>> transitions;
+    std::map<char, std::shared_ptr<State>> transitions;
     bool isFinal;
 };
 
-
-#endif //FST_STATE_H
+#endif

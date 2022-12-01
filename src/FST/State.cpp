@@ -1,20 +1,10 @@
 #include "State.h"
 
-state::state() {
+State::State() {
     this->isFinal = false;
     this->transitions.clear();
 }
 
-void state::clear() {
-    this->isFinal = false;
-    this->transitions.clear();
-}
-
-void state::copyState (const shared_ptr<state>& s) {
-    this->isFinal = s->isFinal;
-    this->transitions = s->transitions;
-}
-
-bool state::compareState (const shared_ptr<state>& s) const {
+bool State::compareState(const std::shared_ptr<State>& s) const {
     return this->isFinal == s->isFinal and this->transitions == s->transitions;
 }

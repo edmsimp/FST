@@ -47,3 +47,8 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("C:/Users/edusi/CLionProjects/FST/cmake-build-debug-coverage/src/Tests/Levenshtein/cmake_install.cmake")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/Users/edusi/CLionProjects/FST/cmake-build-debug-coverage/src/Tests/Performance/cmake_install.cmake")
+endif()
+
