@@ -9,7 +9,10 @@ A seguir, estão os testes realizados para comparar os três diferentes algoritm
 
 ## Análise do Dicionário Usado
 
-Para o estudo da eficiência do *auto-complete*, foi utilizado o dicionário disponibilizado juntamente ao Linux, para o Inglês Americano. Na Figura 1, pode-se observar a distribuição das palavras no dicionário, de acordo com as suas primeiras letras.
+Para o estudo da eficiência do *auto-complete*, foi utilizado o dicionário disponibilizado juntamente ao Linux, para o Inglês Americano. Extraindo-se as palavras nele presente, e tomando as suas primeiras letras, tem-se que o alfabeto considerado é constituído por:
+> `a`, `b`, `c`, `d`, `e`, `f`, `g`, `h`, `i`, `j`, `k`, `l`, `m`, `n`, `o`, `p`, `q`, `r`, `s`, `t`, `u`, `v`, `w`, `x`, `y`, `z`, `å`, `é`
+
+Assim, na Figura 1, pode-se observar a distribuição das palavras no dicionário, de acordo com as suas primeiras letras.
 
 | ![dictdist](./src/Analysis/dict_dist.png) |
 |-|
@@ -17,7 +20,7 @@ Para o estudo da eficiência do *auto-complete*, foi utilizado o dicionário dis
 
 ## Criação dos Dicionários
 
-Antes de serem realizados quaiser testes quanto à velocidade de execução do algoritmo de *auto-complete*, os três diferentes algoritmos precisam completar uma etapa de preparação. No caso do Autômato de Levenshtein, isso significa importar as palavras do dicionário para uma lista que será percorrida, para a Árvore RB e o FST, criar as suas estruturas típicas, com base no dicionário de palavras especificado.
+Antes de serem realizados quaiser testes quanto à velocidade de execução do algoritmo de *auto-complete*, os três diferentes algoritmos precisam completar uma etapa de preparação. No caso do Autômato de Levenshtein, isso significa importar as palavras do dicionário para uma lista que será percorrida, para a Árvore RB e o FST, criar as suas estruturas típicas, com base no dicionário de palavras especificado. 
 
 Assim, os tempos de preparação de cada um dos algoritmos estão apresentados no gráfico da Figura 1. Analisando-se os resultados apresentados na figura, nota-se que o tempo de preparação do Autômato de Levenshtein é significativamente menor que os demais, o que se deve ao fato de esta etapa, para esse algoritmo, ser constituída simplesmente pela adição das *strings* do dicionário, sem que computações adicionais sejam feitas.
 
@@ -27,7 +30,7 @@ Assim, os tempos de preparação de cada um dos algoritmos estão apresentados n
 
 ## Testes com Caractere Único
 
-Para uma comparação inicial, foram feitos testes de *auto-complete* utilizando-se apenas um caractere. Os gráficos abaixo apresentam o tempo de execução dos três algoritmos implementados, Levenshtein considerando distância 1, Árvore Rubro-Negra, e FST.
+Para uma comparação inicial, foram feitos testes de *auto-complete* utilizando-se apenas um caractere. Esses testes foram repetidos 10 vezes para cada letra, no intuito de criar um conjunto de dados representativo. Os gráficos abaixo apresentam o tempo médio de execução para cada letra dos três algoritmos implementados, Levenshtein considerando distância 1, Árvore Rubro-Negra, e FST. O alfabeto está distribuído em ordem no eixo X, com cada posição representando uma letra diferente.
 
 |![levenchar](./src/Analysis/leven_char.png)|
 | :-: |

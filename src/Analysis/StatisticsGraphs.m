@@ -96,22 +96,24 @@ leven_str = leven_stats.executionTime_ns_(291:390);
 
 plot(leven_str(:, 1) / 10^6, 'LineWidth', 1.5, 'Color', '#0072BD');
 hold on;
+yline(mean(leven_str) / 10^6, '--r');
 title("100 Strings Aleatórias - Levenshtein");
 ylabel("Tempo (ms)");
 xlabel("Número de Strings Testadas");
-legend('Levenshtein');
+legend('Levenshtein', 'Média');
 hold off;
 print -dpng -r400 leven_rand.png
 
 % RB Tree
 rb_str = rb_stats.executionTime_ns_(291:390);
 
-plot(rb_str(:, 1) / 10^3, 'LineWidth', 1.5, 'Color', '#D95319');
+plot(rb_str / 10^3, 'LineWidth', 1.5, 'Color', '#D95319');
 hold on;
+yline(mean(rb_str) / 10^3,'--r');
 title("100 Strings Aleatórias - RB Tree");
 ylabel("Tempo (us)");
 xlabel("Número de Strings Testadas");
-legend('RB Tree');
+legend('RB Tree', 'Média');
 hold off;
 print -dpng -r400 rb_rand.png
 
