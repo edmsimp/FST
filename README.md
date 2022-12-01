@@ -89,7 +89,7 @@ Para a última bateria de testes, foram selecionadas 100 *strings* do dicionári
 Para realizar a análise da memória utilizada pelos diferentes métodos, fez-se uso da ferramenta *valgrind*, que permite monitorar programas durante a sua execução, e verificar a quantidade de memória que é alocada por um programa, e se ela foi liberada corretamente ao final da execução do programa. Os testes realizados para os três algoritmos foram simplesmente a importação do dicionário, e criação da respectiva estrutura de dados.
 
 ```bash
-% valgrind ./LevenshteinMemory_AgentTest                                                                                                                                                                         ✹ ✭
+% valgrind ./LevenshteinMemory_AgentTest
 ==227733== Memcheck, a memory error detector
 ==227733== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
 ==227733== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
@@ -115,7 +115,7 @@ Para realizar a análise da memória utilizada pelos diferentes métodos, fez-se
 Pela análise da saída do *valgrind*, constata-se que o teste simples do algoritmo do Autômato de Levenshtein utilizou um total de 13.409.927 bytes de memória, o que corresponde a 12.78 MB.
 
 ```bash
-% valgrind ./TreeMemory_AgentTest                                                                                                                                                                                ✹ ✭
+% valgrind ./TreeMemory_AgentTest
 ==228037== Memcheck, a memory error detector
 ==228037== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
 ==228037== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
@@ -141,7 +141,23 @@ Pela análise da saída do *valgrind*, constata-se que o teste simples do algori
 Novamente, pela análise da saída do *valgrind*, constata-se que o teste simples do algoritmo da Árvore Rubro-Negra utilizou um total de 15.069.959 bytes de memória, o que corresponde a 14.37 MB.
 
 ```bash
-% valgrind
+% valgrind ./FSTMemory_AgentTest
+==240279== Memcheck, a memory error detector
+==240279== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==240279== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==240279== Command: ./FSTMemory_AgentTest
+==240279== 
+==240279== 
+==240279== HEAP SUMMARY:
+==240279==     in use at exit: 0 bytes in 0 blocks
+==240279==   total heap usage: 472,272 allocs, 472,272 frees, 39,608,314 bytes allocated
+==240279== 
+==240279== All heap blocks were freed -- no leaks are possible
+==240279== 
+==240279== For lists of detected and suppressed errors, rerun with: -s
+==240279== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
 
-Finalmente, fazendo uso da última execução do *valgrind*, constata-se que o algoritmo do Finite State Transducer utilizou um total de .
+Finalmente, fazendo uso da última execução do *valgrind*, constata-se que o algoritmo do Finite State Transducer utilizou um total de 39,608,314 de bytes de memória, o que corresponde a 37.77 MB.
+
+Assim, é necessário fazer uma ressalva quanto aos valores encontrados durante a execução do *valgrind*, dado que este marca no *Heap* o total de blocos de memória utilizados. Dessa forma, nota-se que a memória utilizada que foi encontrada refere-se ao valor máximo de memória utilizado durante a criação da estrutura, e não ao valor final ocupado por ela. Portanto, ainda espera-se que o tamanho final do FST seja menor que o do Autômato de Levenshtein, e do que a Árvore Rubro-Negra.
