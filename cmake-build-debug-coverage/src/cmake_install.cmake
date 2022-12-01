@@ -39,6 +39,16 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("C:/Users/edusi/CLionProjects/FST/cmake-build-debug-coverage/src/BalancedTree/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/Users/edusi/CLionProjects/FST/cmake-build-debug-coverage/src/Completers/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("C:/Users/edusi/CLionProjects/FST/cmake-build-debug-coverage/src/FST/cmake_install.cmake")
 endif()
 
@@ -50,5 +60,10 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
   include("C:/Users/edusi/CLionProjects/FST/cmake-build-debug-coverage/src/Tests/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/Users/edusi/CLionProjects/FST/cmake-build-debug-coverage/src/GUI/cmake_install.cmake")
 endif()
 

@@ -1,6 +1,3 @@
-//
-// Created by edusi on 29/11/2022.
-//
 #ifndef FST_FST_H
 #define FST_FST_H
 
@@ -10,33 +7,22 @@
 
 #include "state.h"
 
-#define FIRST_CHAR '\''
-#define LAST_CHAR 'z'
-#define MAX_WORD_SIZE 20
-
-using namespace std;
-
 class fst {
 public:
-    fst (vector<string> &input);
-
+    explicit fst (std::vector<std::string> &input);
     ~fst () = default;
 
-    void insert (const shared_ptr<state>& s);
-    void replaceOrRegister (shared_ptr<state>& s);
-    void addSuffix (shared_ptr<state>& s, string suffix);
-    bool hasChildren (shared_ptr<state>& s);
-    string commonPrefix (string currentWord, string previousWord);
-    shared_ptr<state> findStateByString (shared_ptr<state> &q0, string s);
-    shared_ptr<state> lastChild (shared_ptr<state>& s);
+    void insert (const std::shared_ptr<state>& s);
+    void replaceOrRegister (std::shared_ptr<state>& s);
+    static void addSuffix (std::shared_ptr<state>& s, const std::string& suffix);
+    static bool hasChildren (std::shared_ptr<state>& s);
+    static std::string commonPrefix (std::string currentWord, std::string previousWord);
+    static std::shared_ptr<state> findStateByString (std::shared_ptr<state> &q0, const std::string& s);
+    static std::shared_ptr<state> lastChild (std::shared_ptr<state>& s);
+    std::shared_ptr<state> member (const std::shared_ptr<state>& s);
+    static std::string getSuffix(std::string s, const std::string& prefix);
 
-    shared_ptr<state> member (const shared_ptr<state>& s);
-    vector<shared_ptr<state>> states;
-    int id_counter;
-
-    static string getSuffix(string s, string prefix);
-    static void printState(const shared_ptr<state>& s);
+    std::vector<std::shared_ptr<state>> states;
 };
-
 
 #endif //FST_FST_H
