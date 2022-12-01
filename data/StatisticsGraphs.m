@@ -1,7 +1,7 @@
 %% Importing Data
-leven_stats = readtable('../../binaries/levenshtein_statistics.csv');
-rb_stats = readtable('../../binaries/tree_statistics.csv');
-fst_stats = readtable('../../binaries/fst_statistics.csv');
+leven_stats = readtable('../binaries/levenshtein_statistics.csv');
+rb_stats = readtable('../binaries/tree_statistics.csv');
+fst_stats = readtable('../binaries/fst_statistics.csv');
 
 %% Dictionary Creation
 
